@@ -30,6 +30,8 @@ Family F is the important one. It asks whether the engine has a hidden
 heuristic layer that it consults when the formalism is silent.
 """
 import json
+import semantics as sem
+from semantics import SEMANTIC, CORPUS, NONE
 from dataclasses import dataclass, replace
 from typing import List, Optional, Set, Tuple
 
@@ -189,8 +191,11 @@ def run_defeasible(c: Case) -> dict:
     concl = {r.conclusion: r for r in live.values()}
     conflict = [a for a in concl if a in CONTRADICTS and CONTRADICTS[a] in concl]
 
-    # Defeat: enabled AND represented AND actually supported by precedence.
-    defeated = {}
+    # Defeat is a FIXPOINT, not a pass. SEMANTICS.md is normative; the basis
+    # check below is the CORPUS layer and the grounded iteration in semantics.py
+    # is the SEMANTIC layer. The single-pass application this replaces was
+    # correct only for depth-1 relations, which is all of families A-F.
+    valid = []
     for d in c.defeats:
         if not d.enabled:
             trace.append(("defeat_absent", d.defeated, d.defeater, d.basis))
@@ -215,16 +220,65 @@ def run_defeasible(c: Case) -> dict:
             # statute — which is the heuristic failure this project exists to
             # detect, wearing a formalism's clothes.
             holds = AUTH_RANK.get(hi.authority, 0) > AUTH_RANK.get(lo.authority, 0)
-        else:  # explicit_rank_precedence — here an explicit rank IS the basis
+        elif d.basis in ("explicit_chain_succession", "explicit_exception"):
+            # Succession and exception are stated IN the corpus: the corpus
+            # says rule C succeeds rule B. There is no independent precedence
+            # to verify, so the relation is valid as stated.
+            #
+            # This branch did not exist before. `chain_succession` fell through
+            # to the rank branch below, where C (rank 7) beat B (rank 2) and
+            # the G4 defeat cycle was DESTROYED BY RANK -- the precise
+            # heuristic failure G4 was constructed to detect, hiding inside the
+            # formalism. The cycle only reappeared once the basis was honoured.
+            holds = True
+        elif d.basis == "explicit_rank_precedence":
+            # An explicit rank IS the stated basis here. This is the only branch
+            # permitted to read `rank`.
             holds = hi.rank > lo.rank
+        else:
+            # An unrecognised basis is not a warrant. Fail closed.
+            trace.append(("defeat_rejected", d.defeated, d.defeater,
+                          "unrecognised basis %s" % d.basis))
+            continue
         if not holds:
             trace.append(("defeat_rejected", d.defeated, d.defeater,
                           "precedence does not hold for basis %s" % d.basis))
             continue
-        defeated[d.defeated] = d
-        trace.append(("defeat", d.defeated, d.defeater, d.basis, d.provenance))
+        valid.append(d)
+        trace.append(("defeat_validated", d.defeated, d.defeater, d.basis,
+                      d.provenance))
 
-    survivors = [r for r in live.values() if r.id not in defeated]
+    # ---- SEMANTIC layer. Acceptance is a grounded fixpoint over the relations
+    # that survived basis validation. No tiebreak is available here: the
+    # spec removed tiebreaks rather than trusting the code to decline them.
+    uncertainty = NONE
+    try:
+        accepted, uncertainty, _hist = sem.accepted(
+            {r.id for r in live.values()},
+            [(d.defeater, d.defeated) for d in valid])
+    except sem.SelfDefeat as e:
+        trace.append(("self_defeat", str(e)))
+        return out(INVALID, trace,
+                   reason="a rule defeats itself; the corpus is malformed",
+                   represented_reason=False)
+
+    if uncertainty == SEMANTIC:
+        cyc = sem.cycle_members([(d.defeater, d.defeated) for d in valid])
+        for ring in cyc:
+            trace.append(("defeat_cycle", "->".join(ring)))
+        return out(CONTESTED, trace,
+                   reason="defeat structure is not well-founded; no unique "
+                          "argument set exists, and Ganymede5 does not resolve "
+                          "cyclic defeat by default",
+                   represented_reason=False, uncertainty=SEMANTIC)
+
+    survivors = [r for r in live.values() if r.id in accepted]
+    # A validated defeat that the fixpoint did not apply is not discarded
+    # silently: it is the trace record that shows the reversal.
+    defeated = {d.defeated: d for d in valid if d.defeated not in accepted}
+    for tgt in sorted(defeated):
+        trace.append(("defeat_effective", tgt, defeated[tgt].defeater,
+                      defeated[tgt].basis, defeated[tgt].provenance))
     s_concl = {r.conclusion for r in survivors}
 
     if conflict:
@@ -235,7 +289,13 @@ def run_defeasible(c: Case) -> dict:
                 trace.append(("argument", r.id, r.source, r.authority, r.cites, r.conclusion))
             return out(CONTESTED, trace,
                        reason="both arguments survive; no represented defeat relation",
-                       represented_reason=False)
+                       represented_reason=False,
+                       # The contested survivors must be reportable WITH the
+                       # defeats that were applied. Returning without this made
+                       # a correct case look like nothing had been decided --
+                       # the record of what WAS defeated is part of the answer
+                       # to why the contest remains open.
+                       defeated=sorted(defeated))
         win = _pick(survivors)
         trace.append(("result", win.id, win.conclusion, "defeated: " + ",".join(sorted(defeated))))
         return out(DECIDED, trace, conclusion=win.conclusion,
@@ -246,23 +306,42 @@ def run_defeasible(c: Case) -> dict:
         return out(DEFEATED, trace, reason="every triggered rule was defeated",
                    represented_reason=True, defeated=sorted(defeated))
     win = _pick(survivors)
-    return out(DECIDED, trace, conclusion=win.conclusion, represented_reason=False)
+    # Name the representative even when nothing was contested. On an
+    # uncontested case the choice is immaterial to the outcome, which is
+    # exactly why it must still be recorded: otherwise a preference-driven
+    # engine is indistinguishable from a correct one.
+    trace.append(("result", win.id, win.conclusion,
+                  "defeated: " + ",".join(sorted(defeated))))
+    return out(DECIDED, trace, conclusion=win.conclusion,
+               represented_reason=bool(defeated), defeated=sorted(defeated))
 
 
 def _pick(survivors):
-    """Order survivors by authority then explicit rank. Nothing else.
+    """Name ONE surviving rule as the representative. This is NOT a tiebreak.
 
-    Sorting is only reached when survivors do not contradict each other, so
-    this is a total order for picking a representative, not a tiebreak that
-    resolves a conflict. The Family-F signals are absent by construction.
+    SEMANTICS.md 4.1 and 4.6: no ordering by authority, rank, recency, or
+    saliency may decide anything. Sorting by AUTH_RANK here looked harmless
+    because this function is only reached when survivors do not contradict --
+    so the choice cannot change the conclusion. It is still an authority
+    preference, and it made the representative in the trace an artifact of
+    authority rather than of declaration order.
+
+    The mutation run made this concrete: a case where two survivors assert the
+    SAME atom (G7) is invisible at the conclusion level, so the only way to
+    detect a preference-driven engine is to inspect the trace. Keeping the
+    sort would have meant the spec's prohibition was true only where it was
+    convenient.
+
+    So: deterministic and inert. First in declaration order.
     """
-    return sorted(survivors,
-                  key=lambda r: (AUTH_RANK.get(r.authority, 0), r.rank),
-                  reverse=True)[0]
+    return sorted(survivors, key=lambda r: r.id)[0]
 
 
 def out(status, trace, reason=None, conclusion=None, audit=False,
-        represented_reason=False, defeated=None):
+        represented_reason=False, defeated=None, uncertainty=None):
     return {"status": status, "trace": trace, "reason": reason, "conclusion": conclusion,
             "audit": audit, "represented_reason": represented_reason,
-            "defeated": defeated or []}
+            "defeated": defeated or [],
+            # IMPLEMENTATION uncertainty is not emittable here by design. Only
+            # the independent grader may assert it.
+            "uncertainty": uncertainty or (CORPUS if status == CONTESTED else NONE)}

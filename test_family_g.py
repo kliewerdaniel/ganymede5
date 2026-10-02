@@ -17,6 +17,98 @@ from expected import MANIFEST
 BY = {c.cid: c for c in G}
 
 
+class CommitmentObservability(unittest.TestCase):
+    """Cases that make ratified commitments actually OBSERVABLE.
+
+    Each of these was added after a mutant survived: the commitment was stated
+    in SEMANTICS.md and simply not tested, which is the same failure as never
+    having written it down.
+    """
+
+    def test_g7_representative_is_not_chosen_by_authority(self):
+        """M4/M11 guard. Two survivors assert the SAME atom, so a preference
+        for the higher-authority rule is invisible in the conclusion and can
+        only be caught in the trace: a correct engine names the first
+        declared survivor, not the agency rule over the memo."""
+        r = run_defeasible(BY["G7"])
+        self.assertEqual(r["status"], DECIDED)
+        self.assertEqual(r["conclusion"], "Y")
+        named = [t for t in r["trace"] if t[0] == "result"]
+        self.assertTrue(named)
+        self.assertEqual(named[0][1], "M",
+                         "the memo is named first in declaration order; an "
+                         "authority-preferring engine would name N")
+
+    def test_g8_self_defeat_is_invalid_not_contested(self):
+        """M7 guard. SEMANTICS.md 4.4: a self-defeating rule is a corpus
+        defect. It must be INVALID, and it must never be reported as the
+        open contest of 4.2 -- those are different claims about the world."""
+        r = run_defeasible(BY["G8"])
+        self.assertEqual(r["status"], INVALID)
+        self.assertNotEqual(r["status"], CONTESTED,
+                            "a malformed norm is not an unresolved norm")
+        self.assertTrue([t for t in r["trace"] if t[0] == "self_defeat"],
+                        "the self-defeat must be named in the trace")
+
+    def test_reversal_is_recorded_in_the_trace(self):
+        """M9 guard. The witness property: which validated defeats the
+        fixpoint did NOT apply is the record that shows a reversal happened.
+        Silently dropping it is the defect that let a wrong answer look
+        clean."""
+        r = run_defeasible(BY["G1"])
+        eff = {t[1]: t[2] for t in r["trace"] if t[0] == "defeat_effective"}
+        self.assertEqual(eff.get("A"), "B", "A falls to B")
+        self.assertEqual(eff.get("C"), "D", "C falls to D")
+        self.assertNotIn("B", eff,
+                         "B's defeat of A is the reversal: C is out, so C's "
+                         "defeat of B does not stand. It must be absent from "
+                         "the effective relation, and its absence is the record")
+
+
+class RatifiedProhibitions(unittest.TestCase):
+    """SEMANTICS.md section 4.6, enforced mechanically.
+
+    The spec removes tiebreaks rather than trusting the code to decline them.
+    That claim is only credible if it is tested, so these are AST/source
+    guards, not behavioural ones.
+    """
+
+    def test_defeat_path_never_reads_an_inert_signal(self):
+        import inspect
+        import semantics as sem
+        src = inspect.getsource(sem.accepted)
+        for field in ("rank", "specificity", "recency", "confidence",
+                      "order_index", "text_similarity", "length"):
+            self.assertNotIn(field, src,
+                             "the SEMANTIC layer must not read %s" % field)
+
+    def test_no_preference_or_stable_semantics_is_available(self):
+        """SEMANTICS.md 4.3: no preference relation may be consulted.
+
+        Ganymede5 has no priority ordering, so the ACCEPTANCE function may not
+        order arguments by authority, rank, or anything else.
+
+        The guard is deliberately scoped to `accepted` and not to the module.
+        `cycle_members` uses `sorted` so that the cycle NAMES are reported in
+        a deterministic order -- that is stable reporting of an unresolved
+        structure, not a preference over it. A module-wide ban would have
+        flagged that, which would be a wrong test rather than a strict one.
+        """
+        import inspect
+        import semantics as sem
+        src = inspect.getsource(sem.accepted)
+        for banned in ("AUTH_RANK", "preference", "sorted", "sort(", "max("):
+            self.assertNotIn(banned, src,
+                             "the acceptance fixpoint must not offer %s" % banned)
+
+    def test_engine_cannot_report_implementation_uncertainty(self):
+        """The engine has no vocabulary for its own defects."""
+        import inspect
+        import semantics as sem
+        self.assertFalse(hasattr(sem, "IMPLEMENTATION"),
+                         "IMPLEMENTATION uncertainty is a grader-only finding")
+
+
 class ManifestAgreement(unittest.TestCase):
     def test_every_family_g_case_matches_the_independent_manifest(self):
         bad = ["%s: expected %s got %s"
@@ -25,16 +117,60 @@ class ManifestAgreement(unittest.TestCase):
         self.assertEqual([b for b in bad if not b.startswith("G2:")], [],
                          "\n".join(bad))
 
-    def test_g2_is_a_known_broken_case_kept_as_a_record(self):
-        """G2 is retained in the corpus precisely because it is malformed: its
-        two survivors do not contradict. It must be the ONLY disagreement, so
-        that any new one is immediately visible."""
-        bad = [c.cid for c in G if run_defeasible(c)["status"] != MANIFEST[c.cid]["status"]]
-        self.assertEqual(bad, ["G2"])
+    def test_g2_disagreement_is_now_resolved_and_recorded(self):
+        """G2 used to be the corpus's one permanent disagreement.
 
+        Its manifest label was CONTESTED on the grounds that no contest was
+        actually posed. Once the grounded fixpoint made the surviving set
+        visible, the engine reached the same answer for a different reason:
+        the survivors DO contradict. The label and the engine now agree, so
+        the disagreement is closed rather than tolerated.
+        """
+        self.assertEqual(run_defeasible(BY["G2"])["status"],
+                         MANIFEST["G2"]["status"])
+        self.assertEqual(run_defeasible(BY["G2"])["status"], CONTESTED)
 
-class ChainStructure(unittest.TestCase):
-    def test_g1_transitive_chain_resolves_at_the_top(self):
+    def test_no_family_g_case_disagrees_with_the_manifest(self):
+        bad = ["%s: manifest %s, engine %s"
+               % (c.cid, MANIFEST[c.cid]["status"], run_defeasible(c)["status"])
+               for c in G if run_defeasible(c)["status"] != MANIFEST[c.cid]["status"]]
+        self.assertEqual(bad, [], "\n".join(bad))
+
+    def test_g1_chain_admits_the_grounded_extension(self):
+        """Ganymede5's chain semantics is GROUNDED, not transitive succession.
+
+        A defeated defeater propagates nothing. D defeats C, so C is out, so
+        C's defeat of B does not stand, so B survives, so B's defeat of A
+        stands. Admitted set is {B, D}.
+
+        The withdrawn claim -- that the chain resolves *transitively* at D --
+        is exactly the invention this project exists to detect, and it was in
+        my own manifest. See SEMANTICS.md section 3.
+        """
+        r = run_defeasible(BY["G1"])
+        self.assertEqual(set(r["defeated"]), {"A", "C"},
+                         "A must fall to B and C must fall to D")
+        self.assertNotIn("B", r["defeated"],
+                         "B is admitted because its defeater C is itself out")
+        self.assertNotIn("D", r["defeated"], "D is unattacked")
+
+    def test_g1_and_g5_have_the_identical_defeat_graph(self):
+        """The duplication is asserted, not hidden.
+
+        G1 and G5 are the same structure and their original manifest labels
+        contradicted each other. Keeping them as one case would hide the
+        error; keeping both makes it permanently checkable.
+        """
+        g1 = frozenset(frozenset((d.defeater, d.defeated))
+                       for d in BY["G1"].defeats if d.enabled)
+        g5 = frozenset(frozenset((d.defeater, d.defeated))
+                       for d in BY["G5"].defeats if d.enabled)
+        self.assertEqual(g1, g5, "G1 and G5 must remain the same graph")
+        self.assertEqual(set(run_defeasible(BY["G1"])["defeated"]),
+                         set(run_defeasible(BY["G5"])["defeated"]),
+                         "identical defeat graphs must yield identical defeats")
+
+    def test_g1_never_resolves_at_the_highest_rank(self):
         r = run_defeasible(BY["G1"])
         self.assertEqual(r["status"], DECIDED)
         self.assertEqual(r["conclusion"], "NOT-Y", "must resolve at D, not at A")
@@ -57,32 +193,112 @@ class ChainStructure(unittest.TestCase):
         absent = [t for t in r["trace"] if t[0] == "defeat_absent"]
         self.assertEqual(len(absent), 1, "the disabled relation must appear in the trace")
 
-    def test_g4_cycle_is_refused_not_resolved(self):
+    def test_g4_cycle_is_never_resolved(self):
+        """SEMANTICS.md 4.2, ratified: Ganymede5 does not resolve cyclic
+        defeat by default. This is a positive commitment, not a known gap.
+
+        The case is load-bearing in a specific way: B(rank 2) and C(rank 7)
+        defeat each other, so a rank tiebreak would confidently name C. The
+        whole point is that the engine must not.
+        """
         r = run_defeasible(BY["G4"])
         self.assertEqual(r["status"], CONTESTED)
-        self.assertIsNone(r["conclusion"])
-        self.assertIn("cycle", r["reason"])
+        self.assertIsNone(r["conclusion"], "a cycle may not yield a conclusion")
+        self.assertEqual(r["uncertainty"], "SEMANTIC")
+        self.assertFalse(r["represented_reason"],
+                         "an unresolved cycle is not a represented reason")
+        cycles = [t for t in r["trace"] if t[0] == "defeat_cycle"]
+        self.assertTrue(cycles,
+                        "the cycle members must be named, so the contest is "
+                        "contestable rather than merely withheld")
 
-    def test_g5_exception_to_an_exception_reverses_the_chain(self):
-        """D defeats C, so C's defeat of B fails, so B's defeat of A stands."""
+    def test_g4_cycle_survives_basis_validation(self):
+        """Regression guard for a real defect found this round.
+
+        `explicit_chain_succession` fell through to the rank branch, where C
+        (rank 7) beat B (rank 2). That DESTROYED the cycle by rank and made
+        G4 report DECIDED -- the precise heuristic failure G4 was built to
+        detect, hiding inside the formalism. Succession is stated in the
+        corpus, so it must be honoured as stated.
+        """
+        r = run_defeasible(BY["G4"])
+        validated = [t for t in r["trace"] if t[0] == "defeat_validated"]
+        self.assertEqual(len(validated), 2,
+                         "both directions of the cycle must survive validation")
+
+    def test_g5_is_not_a_chain_reversal_and_does_not_claim_to_be(self):
+        """G5 was named "the reversal must reach A". That claim is WITHDRAWN.
+
+        The engine must not report that a defeated defeater's defeat reversed
+        a chain it never propagated. The admitted set is {B, D} -- identical to
+        G1, because the defeat graphs are identical.
+
+        With B (agency) and D (constitution) both admitted and asserting
+        opposite atoms, the honest answer is CONTESTED, not DECIDED. A
+        constitutional exception that ends a chain does not by itself decide
+        the case; whether the exception reaches THIS case is a question of
+        applicability, and applicability is not represented in the corpus.
+        Preferring D because it is constitutional is precisely the
+        authority-preference tiebreak SEMANTICS.md removes.
+        """
         r = run_defeasible(BY["G5"])
-        self.assertEqual(r["status"], DECIDED)
-        self.assertEqual(r["conclusion"], "Y", "the reversal must reach A")
-        self.assertIn("C", r["defeated"])
+        self.assertEqual(set(r["defeated"]), {"A", "C"})
+        self.assertEqual(r["status"], CONTESTED)
+        self.assertEqual(r["uncertainty"], "CORPUS")
+        self.assertIsNone(r["conclusion"],
+                          "a chain ending in a constitutional exception does "
+                          "not decide the case by itself")
 
-    def test_g5_reversal_is_visible_in_the_trace(self):
-        """The point of a fixpoint is that the reversal is inspectable."""
-        trace = run_defeasible(BY["G5"])["trace"]
-        applied = [(t[1], t[2]) for t in trace if t[0] == "defeat"]
-        self.assertIn(("A", "B"), applied)
-        self.assertIn(("C", "D"), applied)
-        self.assertNotIn(("B", "C"), applied,
-                         "a defeated rule cannot itself defeat")
+    def test_g5_now_does_pose_a_contest_on_the_merged_atoms(self):
+        """FOURTH case-design error, found by grading.
 
+        The chain rules assert the derived atoms A1 and B1, so the surviving
+        rules B (A1) and D (NOT-Y) do not contradict each other and the case
+        never posed a conflict on Y. The engine returns different answers for
+        G1 and G5 only because _pick orders equal-authority survivors by
+        rank -- i.e. this family was partially measuring the tiebreak it
+        claims to forbid.
 
-class UnrelatedBranches(unittest.TestCase):
-    """The sharpest cases. Nothing relates the survivors, so nothing may
-    choose between them."""
+        This test documents the defect rather than hiding it. The corpus fix
+        (terminal rules must assert opposite atoms) is NOT yet applied, so
+        this is an xfail-shaped assertion, not a passing guarantee.
+        """
+        r5 = run_defeasible(BY["G5"])
+        concls = {x.conclusion for x in BY["G5"].rules
+                  if x.id not in r5["defeated"]}
+        self.assertIn("Y", concls,
+                      "a survivor must assert Y for the case to discriminate")
+        self.assertIn("NOT-Y", concls,
+                      "and the survivors must contradict, or G5 cannot test "
+                      "whether a constitutional exception decides the case")
+
+    def test_uncertainty_kinds_stay_distinct(self):
+        """SEMANTIC and CORPUS must never collapse into one state.
+
+        A cycle is SEMANTIC (the formalism is indeterminate). Two surviving
+        arguments that contradict are CORPUS (the corpus lacks a relation).
+        Reporting them identically would hide whether the system or the law is
+        at fault.
+        """
+        cyc = run_defeasible(BY["G4"])
+        self.assertEqual(cyc["status"], CONTESTED)
+        self.assertEqual(cyc["uncertainty"], "SEMANTIC",
+                         "a defeat cycle is indeterminate in the FORMALISM")
+
+        cor = run_defeasible(BY["G2c"])
+        self.assertEqual(cor["status"], CONTESTED)
+        self.assertEqual(cor["uncertainty"], "CORPUS",
+                         "a well-founded contest is underdetermined in the CORPUS")
+
+    def test_engine_never_claims_implementation_uncertainty(self):
+        """IMPLEMENTATION uncertainty is a grader finding, never an outcome.
+
+        A system that can diagnose its own implementation errors is not being
+        audited. This test is the mechanical guard on that boundary.
+        """
+        for c in G:
+            self.assertNotIn(run_defeasible(c)["uncertainty"],
+                             ("IMPLEMENTATION", None))
 
     def test_g2c_unrelated_survivors_stay_contested(self):
         r = run_defeasible(BY["G2c"])
@@ -97,12 +313,20 @@ class UnrelatedBranches(unittest.TestCase):
         self.assertEqual(d.rank, e.rank)
         self.assertNotEqual(d.conclusion, e.conclusion, "they must contradict")
 
-    def test_g2b_control_agrees_with_g2c_structure(self):
-        """G2b differs from G2c only in that the survivors do not contradict.
-        One decides, the other must not. If both behave the same, the engine
-        is not reading the contradiction at all."""
-        self.assertEqual(run_defeasible(BY["G2b"])["status"], DECIDED)
-        self.assertEqual(run_defeasible(BY["G2c"])["status"], CONTESTED)
+    def test_g2b_is_not_the_control_i_intended(self):
+        """G2b was meant to be a DECIDED control. It is the same as G2c.
+
+        With C removed from the admitted set, survivors are B (Y) and D
+        (NOT-Y) -- a contradiction. The engine is right; my label was wrong.
+        Kept as a test so the mistaken "control" cannot be silently revived.
+        """
+        r = run_defeasible(BY["G2b"])
+        self.assertEqual(r["status"], CONTESTED)
+        survivors = {x.conclusion for x in BY["G2b"].rules
+                     if x.id not in r["defeated"]}
+        self.assertIn("Y", survivors)
+        self.assertIn("NOT-Y", survivors,
+                      "G2b's survivors DO contradict; it is not a control")
 
     def test_g6_one_contested_pair_does_not_license_the_other(self):
         r = run_defeasible(BY["G6"])
@@ -124,10 +348,14 @@ class RegimeContrast(unittest.TestCase):
         self.assertEqual(run_refusal(BY["G2c"], True)["status"], DECIDED,
                          "the control should confidently close G2c")
 
-    def test_no_family_g_case_is_ever_invalid(self):
-        for c in G:
-            self.assertNotEqual(run_defeasible(c)["status"], INVALID, c.cid)
-
-
-if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    def test_only_the_malformed_case_is_invalid(self):
+        """G8 is deliberately INVALID, so the old blanket claim that no
+        Family G case is INVALID no longer holds. The meaningful invariant is
+        that INVALID appears ONLY for a corpus defect (G8), never for a case
+        whose defeat structure is merely unresolved."""
+        invalid = [c.cid for c in G
+                   if run_defeasible(c)["status"] == INVALID]
+        self.assertEqual(invalid, ["G8"],
+                         "only the self-defeating corpus may be INVALID")
+        for cid in ("G1", "G2", "G2b", "G2c", "G3", "G4", "G5", "G6", "G7"):
+            self.assertNotEqual(run_defeasible(BY[cid])["status"], INVALID, cid)

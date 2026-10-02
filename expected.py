@@ -174,11 +174,27 @@ MANIFEST = {
     # ------------------------------------------------------------- family G
     # Nested defeat chains. The question is whether the structure survives
     # or collapses to "the highest number wins".
+    # G1 and G5 ARE THE SAME DEFEAT GRAPH: D defeats C, C defeats B, B
+    # defeats A. Verified mechanically (identical frozenset of active defeat
+    # edges). Their labels here ORIGINALLY CONTRADICTED EACH OTHER -- G1 said
+    # "resolves at D", G5 said "resolves at A" -- and no deterministic
+    # semantics can honour both. That contradiction, not the cycle, is the
+    # primary finding of Family G.
+    #
+    # Grounded semantics admits {B, D}: C is out, so C's defeat of B does not
+    # stand, so B survives, so B's defeat of A stands. The chain does NOT
+    # resolve transitively to D, because a defeated defeater propagates
+    # nothing. My original G1 label encoded the intuition that succession
+    # runs end-to-end; that is a different (and unlicensed) semantics.
     "G1": dict(status="DECIDED", conflict=True, valid_defeat=True,
-               representable=True, defeat=("C", "D"),
-               why="linear chain B defeats A, C defeats B, D defeats C. Every "
-                   "relation is represented and satisfied, so the structure "
-                   "resolves transitively to D's conclusion"),
+               representable=True, defeat=("B", "A"),
+               why="linear chain B defeats A, C defeats B, D defeats C. "
+                   "Grounded: D is unattacked; C is therefore out; C's defeat "
+                   "of B does not stand, so B survives; B's defeat of A does "
+                   "stand. Admitted set is {B, D}. CORRECTED -- I originally "
+                   "claimed the structure resolves transitively to D, which "
+                   "assumes succession propagates through a defeated "
+                   "defeater. It does not. See SEMANTICS.md section 3"),
     "G2": dict(status="CONTESTED", conflict=True, valid_defeat=False,
                representable=True, defeat=None,
                why="D defeats C and C defeats B; F defeats E. B is eliminated "
@@ -200,26 +216,68 @@ MANIFEST = {
                    "leaves a contest. That was wrong: breaking the chain "
                    "stops the defeater, it does not resurrect the defeated. "
                    "Corrected after the first run."),
+    # SEMANTIC uncertainty per SEMANTICS.md 4.2: Ganymede5 does not resolve
+    # cyclic defeat by default. This is a ratified position, not a gap.
     "G4": dict(status="CONTESTED", conflict=True, valid_defeat=False,
-               representable=True, defeat=None,
+               representable=True, defeat=None, uncertainty="SEMANTIC",
                why="C defeats B and B defeats C. A cycle has no well-founded "
                    "argument set, so the formalism must not report a winner. "
                    "Reporting the higher-ranked member of the cycle would be "
                    "exactly the invention this project exists to detect"),
-    "G5": dict(status="DECIDED", conflict=True, valid_defeat=True,
-               representable=True, defeat=("B", "A"),
-               why="an exception to an exception. B defeats A, C defeats B, "
-                   "and D is an exception to C. With D present, C's defeat of "
-                   "B is itself defeated, so B's defeat of A stands and the "
-                   "chain resolves at A. The trace must show the reversal"),
-    "G2b": dict(status="DECIDED", conflict=True, valid_defeat=True,
-                representable=True, defeat=("B", "C"),
-                why="control for G2c. Same chain structure: B is defeated "
-                    "through C, and F defeats E, leaving D and F. D asserts "
-                    "NOT-Y and F asserts E1, which is not a contradiction, so "
-                    "the case is decided on the represented relation alone. "
-                    "DECIDED is right here not because agreement was found "
-                    "but because no contest was posed"),
+    # G5 is a DUPLICATE of G1 in defeat structure. It is retained rather than
+    # deleted because its label is where the error was found, and the case
+    # still exercises a different BASIS (explicit_exception) and a different
+    # authority tier for the terminal rule.
+    #
+    # A fourth case-design error, found last: the chain rules assert the
+    # derived atoms A1/B1, not Y and NOT-Y. So the surviving rules B (A1) and
+    # D (NOT-Y) do not contradict one another, and the case never posed a
+    # contest on Y at all. The engine returned different answers for G1 and
+    # G5 ONLY because _pick sorts equal-authority survivors by rank -- i.e.
+    # the family was partially measuring the tiebreak it claims to forbid.
+    # The fix is a corpus fix: terminal rules must assert opposite atoms.
+    # CORRECTED from DECIDED. The admitted set is {B, D} -- identical to G1,
+    # because the defeat graph is identical. With the corpus fixed so the
+    # admitted rules assert opposite atoms, B (agency, NOT-Y) and D
+    # (constitution, Y) now genuinely contradict, so CONTESTED is correct.
+    #
+    # This is the substantive outcome of Family G. A chain ending in a
+    # constitutional exception does NOT decide the case. Preferring D because
+    # it is constitutional is exactly the authority-preference tiebreak that
+    # SEMANTICS.md section 4.1 removes. Whether the exception reaches this
+    # case is a question of APPLICABILITY, and applicability is not
+    # represented in the corpus -- so the honest answer is an open contest.
+    #
+    # Two withdrawn claims are recorded here rather than deleted: that the
+    # chain "resolves at A" (which would require a defeated defeater to
+    # restore a rule it cannot legitimately affect), and that this case is
+    # distinguishable from G1.
+    "G5": dict(status="CONTESTED", conflict=True, valid_defeat=False,
+               representable=True, defeat=None,
+               why="an exception to an exception, and the admitted set is "
+                   "{B, D} exactly as in G1 because the defeat graph is "
+                   "identical. The admitted rules contradict: B asserts NOT-Y "
+                   "and D, the constitution, asserts Y. No represented relation "
+                   "separates them, and preferring the constitution would be "
+                   "the authority-preference tiebreak the spec removes. "
+                   "CORRECTED from DECIDED and from the withdrawn "
+                   "'resolves at A' claim"),
+    # FIFTH case-design error. G2b was intended as a "control" in which the
+    # survivors agree, so that DECIDED would follow from absence of contest.
+    # But B is defeated through C, leaving B and D; B asserts Y and D asserts
+    # NOT-Y, which DO contradict. G2b is therefore the same case as G2c and
+    # is correctly CONTESTED. Verified: with C removed from the admitted set,
+    # survivors are B(Y) and D(NOT-Y).
+    #
+    # The engine was right and my label was wrong. Corrected after the
+    # grounded fixpoint made the surviving set visible.
+    "G2b": dict(status="CONTESTED", conflict=True, valid_defeat=False,
+                representable=True, defeat=None,
+                why="CORRECTED from DECIDED. I intended a control whose "
+                    "survivors agree, but the chain removes C and leaves B and "
+                    "D, and B asserts Y while D asserts NOT-Y. The survivors "
+                    "contradict, so CONTESTED is correct and this is not a "
+                    "distinct control from G2c"),
     "G2c": dict(status="CONTESTED", conflict=True, valid_defeat=False,
                 representable=True, defeat=None,
                 why="the case G2 was meant to be. D and E both survive, both "
@@ -229,6 +287,23 @@ MANIFEST = {
                     "represented relation separates them, and the only thing "
                     "that could is a tiebreak, which is not licensed. Naming "
                     "either branch would be an invented interpretation"),
+
+    # G7 exists to make the preference tiebreaks OBSERVABLE. Two admitted
+    # rules assert the SAME atom, so conclusion-level tests cannot tell a
+    # correct engine from one that prefers authority. The check must be on the
+    # trace: which rule is named as the representative.
+    "G7": dict(status="DECIDED", conflict=False, valid_defeat=False,
+               representable=True, defeat=None,
+               why="memo and agency rules both assert Y and neither defeats "
+                   "the other, so nothing is contested. Any authority "
+                   "preference is only visible in the trace, not the outcome"),
+
+    # G8 is a corpus defect, not an open question. INVALID is deliberately a
+    # different state from CONTESTED: a malformed norm is not an open norm.
+    "G8": dict(status="INVALID", conflict=False, valid_defeat=True,
+               representable=True, defeat=("A", "A"),
+               why="a rule that defeats itself asserts something incoherent. "
+                   "No amount of argumentation licenses an outcome on it"),
 
     "G6": dict(status="CONTESTED", conflict=True, valid_defeat=False,
                representable=True, defeat=None,

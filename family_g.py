@@ -32,9 +32,18 @@ def add(cid, note, **kw):
 add("G1", "linear chain, ranks point the wrong way",
     state={X}, at=10,
     rules=[
+        # The admitted set is {B, D}. B is the operative rule and must assert
+        # the contested atom, otherwise the case cannot discriminate.
+        # A(rank 9) says Y; B(rank 8) says NOT-Y. A rank collapse answers Y;
+        # the grounded structure answers NOT-Y.
         Rule("A", "r_a", "agency", "r_a §1", X, Y, rank=9),
-        Rule("B", "r_b", "agency", "r_b §1", X, "A1", rank=8),
+        Rule("B", "r_b", "agency", "r_b §1", X, NOT_Y, rank=8),
         Rule("C", "r_c", "agency", "r_c §1", X, "B1", rank=7),
+        # B is the ADMITTED rule and must assert the contested atom, otherwise
+        # the case cannot discriminate. B asserting A1 (a derived atom) while
+        # D asserts NOT-Y meant the survivors never contradicted, so G1 could
+        # not test the thing it was built to test. FOURTH case-design error,
+        # found when the grounded fixpoint made the surviving set visible.
         Rule("D", "r_d", "agency", "r_d §1", X, NOT_Y, rank=6),
     ],
     defeats=[
@@ -94,10 +103,13 @@ add("G4", "defeat cycle — no well-founded argument set",
 add("G5", "exception to an exception — the reversal must be visible",
     state={X}, at=10,
     rules=[
+        # Same admitted set {B, D} as G1. B is operative; D is the
+        # constitution asserting the opposite atom at a higher rank, so
+        # "prefer the terminal/higher-authority rule" is visible as wrong.
         Rule("A", "r_a", "agency", "r_a §1", X, Y, rank=1),
-        Rule("B", "r_b", "agency", "r_b §1", X, "A1", rank=2),
+        Rule("B", "r_b", "agency", "r_b §1", X, NOT_Y, rank=2),
         Rule("C", "r_c", "agency", "r_c §1", X, "B1", rank=3),
-        Rule("D", "r_d", "constitution", "r_d art.1", X, NOT_Y, rank=4),
+        Rule("D", "r_d", "constitution", "r_d art.1", X, Y, rank=4),
     ],
     defeats=[
         Defeat("A", "B", "explicit_chain_succession", "r_b §1"),
@@ -155,4 +167,32 @@ add("G2c", "survivors contradict, identical authority and rank",
         Defeat("B", "C", "explicit_chain_succession", "r_c §1"),
         Defeat("C", "D", "explicit_chain_succession", "r_d §1"),
         Defeat("E", "C", "explicit_chain_succession", "r_c §1"),
+    ])
+
+
+# --- Cases added to close mutation survivors. Each exists because a ratified
+# commitment was NOT actually being tested, and the mutation run proved it.
+
+# G7: two admitted rules assert the SAME atom but carry different authority.
+# Any preference for the higher-authority rule is then unobservable, because a
+# correct engine and a preference-driven engine agree on the conclusion. This
+# is the case that makes M4 and M11 detectable: the difference must show in the
+# TRACE (which rule is named), not in the conclusion.
+add("G7", "equal-atom survivors differing only in authority",
+    state={X}, at=10,
+    rules=[
+        Rule("M", "r_m", "memo", "r_m §1", X, Y, rank=1),
+        Rule("N", "r_n", "agency", "r_n §1", X, Y, rank=2),
+    ],
+    defeats=[])
+
+# G8: a rule defeats itself. This is a CORPUS defect (SEMANTICS.md 4.4) and
+# must be INVALID -- a state deliberately different from CONTESTED.
+add("G8", "self-defeating rule",
+    state={X}, at=10,
+    rules=[
+        Rule("A", "r_a", "agency", "r_a §1", X, Y, rank=3),
+    ],
+    defeats=[
+        Defeat("A", "A", "explicit_chain_succession", "r_a §1"),
     ])

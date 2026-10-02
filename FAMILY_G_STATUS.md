@@ -1,102 +1,128 @@
-# Family G — nested defeat chains. WORK IN PROGRESS, SHIPPED FAILING.
+# Family G — nested defeat. STATUS: resolved under a ratified semantics.
 
-**Status: the baseline corpus (A–F) passes 40/40. Family G does not, and
-this file records why. The G engine is not enabled in `corpus.py`.**
+**Superseded by `SEMANTICS.md`.** This file records how the semantics was
+reached, including the parts that were wrong on the way. Kept deliberately;
+the earlier "shipped failing" version is preserved in git history.
 
-Run `python3 -m unittest test_family_g` to see the failures. They are real and
-they are the most interesting result so far.
+Baseline A–F corpus: **40/40**. Full suite: **67/67**. Mutants: **11/11 killed**.
 
-## What Family G asks
+## What changed
 
-Can the defeasible representation preserve a defeat **structure**, or does it
-collapse to "the highest numeric rank wins"?
+Defeat is now a **grounded fixpoint** (Dung) rather than a single pass, and the
+cycle question is a ratified position rather than an open problem. See
+`SEMANTICS.md` for the normative statement; `semantics.py` implements it.
 
-Every case is built so the two answers differ. Ranks are deliberately set to
-favour the wrong answer, so a rank collapse is visible rather than lucky.
-
-## What the independent manifest found immediately
-
-`expected.py` — a manifest importing no engine code, authored from ASPIC+-lite
-semantics — was the single most valuable artifact of this round. It found
-**three engine failures and two errors in my own case design** on first contact.
-
-| id | expected | what happened |
+| | before | after |
 |---|---|---|
-| G1 | DECIDED at D | `CONTESTED` — engine could not follow a chain |
-| G2 | CONTESTED | my *case* was malformed, not the engine |
-| G3 | CONTESTED | my *manifest* was wrong; engine right |
-| G4 | CONTESTED | `DECIDED` — a defeat **cycle** produced a confident winner |
+| cases | 34 | 36 |
+| `defeasible` accuracy | 0.94 | **1.00** (0 disagreements) |
+| suppression of contested cases | 8% | **0%** |
+| justification on decided contested | 0.86 | 0.82 (9/11) |
 
-G4 is the alarming one. C defeats B and B defeats C. The engine resolved it by
-rank. That is precisely the invented interpretation this project exists to
-detect, appearing in my own code.
+Suppression 8% → **0%** is the number that matters: two contested cases were
+being closed without warrant, and neither is now.
 
-## The underlying problem: defeat is not a one-pass computation
+## Four engine defects, found by the spec rather than by tests
 
-Defeat must be a fixpoint, because a defeat can itself be defeated.
+**1. Single-pass defeat.** Applied defeats in sequence, so a defeat could not
+be itself defeated. Correct for depth-1, which is all of A–F. That is why the
+0.94 was only ever a depth-1 result.
 
-Four implementations, three wrong:
+**2. `explicit_chain_succession` fell through to the rank branch.** Succession
+is stated in the corpus, but the dispatch had no branch for it, so it hit the
+`else` and was validated by `rank`. In G4 that meant C (rank 7) beat B
+(rank 2), which **destroyed the defeat cycle by rank** and made G4 report
+`DECIDED`.
 
-1. **Single pass.** Applied defeats independently. Ignores defeats of
-   defeats. Wrong on every chain.
-2. **Monotone growth from the unattacked set.** Order-dependent: in
-   A←B←C←D, A was admitted before B was, so a rule about to be defeated
-   survived. No such order should exist.
-3. **Antitone removal with an `r ∈ S` guard.** Collapses the whole chain —
-   B is removed using C, while C is being removed using D.
-4. **Grounded operator `S(n+1) = {r : no s ∈ S(n) attacks r}`.**
-   Converges on acyclic chains, **oscillates forever on a cycle**:
-   `{B,C} → {} → {B,C} → …`. It has no stable fixpoint there.
+That is the precise failure G4 was built to detect — a rank heuristic wearing
+a formalism's clothes — hiding in my own basis dispatch. Now mutant M2; the
+cycle is correctly `CONTESTED`.
 
-Attempt 4 hung the process before I bounded it. Bounded, it now fails closed
-and returns `CONTESTED` on oscillation — the safe direction — but it still
-gives the wrong answer on the linear chain G1 (answers at A rather than D).
+**3. `CONTESTED` dropped the record of what *had* been defeated.** Status and
+trace were both right, but the returned `defeated` list was empty, so a correct
+case looked like nothing had been decided. Now M10.
 
-**The correct fix is well-founded semantics** (van Gelder's *well-founded*
-operator, or the Gnu/alternating fixpoint for a fair, finitely-grounded
-argmentation framework). Neither is implemented. Naive iteration is provably
-insufficient here, and the oscillation in attempt 4 is the textbook symptom.
+**4. `_pick` ordered survivors by authority.** Unobservable in the conclusion
+— only reached when survivors do not contradict — so it looked harmless. It is
+not: it is an authority preference, and it *is* observable in the trace.
+Replaced with deterministic declaration order. Case G7 exists solely to make
+this detectable.
 
-This is a real result, not a nuisance: it shows that "add defeasible
-reasoning" is not a matter of applying defeats in sequence, and that the
-guarantee G1–G5 are meant to demonstrate depends on getting the fixpoint
-theory right.
+## Five errors in my own corpus, not the engine
 
-## Case-design errors found (kept, not deleted)
+This is the finding I would keep if I could keep only one.
 
-- **G2**: I described "two chains without a dominant argument" but the two
-  surviving branches did not assert contradictory conclusions, so no contest
-  was posed. Rebuilt as **G2b** (survivors agree → DECIDED) and **G2c**
-  (survivors contradict, identical authority and rank → CONTESTED).
-- **G2c**, first version: I gave both branches the *same* conclusion while
-  intending opposite ones. The engine was right to decide it.
-- **G3**: I expected CONTESTED on the reasoning that a broken chain leaves a
-  contest. Wrong: breaking a chain stops the defeater, it does not resurrect
-  the defeated. B still defeats A, so exactly one argument survives.
+| case | error | who was right |
+|---|---|---|
+| G2 | survivors never contradicted, so no contest was posed | engine |
+| G2b | meant as a DECIDED "control"; its survivors *do* contradict | engine |
+| G2c, v1 | both branches asserted the *same* conclusion | engine |
+| G1 | "resolves transitively at D" — assumes succession propagates through a defeated defeater | engine |
+| G1/G5 | identical defeat graphs carrying **opposite** manifest labels | neither; both were suspect |
 
-Each correction is annotated in `expected.py` with what I originally claimed
-and why it was wrong.
+**G1 and G5 are the same graph**, verified mechanically as identical frozensets
+of active defeat edges. No deterministic semantics can honour labels that
+contradict each other. That contradiction, not the cycle, is what made this
+round's work necessary.
 
-## A methodological note worth more than the results
+Three further corpus defects: the chain rules asserted derived atoms `A1`/`B1`
+rather than `Y`/`NOT-Y`, so G1 and G5 never discriminated on the contested atom
+at all — and returned *different* answers purely because `_pick` sorted by
+rank. Family G was partly measuring the tiebreak it claimed to forbid.
 
-Three of the five findings were bugs in **my own** corpus, not in the engine:
-the inverted authority direction in C1 (Experiment 0), G2, and G2c. The engine
-rejected each one correctly and said why.
+## Two claims withdrawn
 
-That is the first empirical evidence for a claim the proposal has been
-asserting on theoretical grounds: a semantics with genuine procedural
-validity *does* catch errors in the specification rather than the other way
-round — provided the semantics refuses to guess when the specification is
-silent.
+**"The chain resolves at D."** Withdrawn. Grounded semantics admits `{B, D}`:
+C is out, so C's defeat of B does not stand, so B survives, so B's defeat of A
+stands. Succession does **not** propagate end-to-end.
 
-## What is needed to finish
+**"G5 is the exception-to-an-exception reversal reaching A."** Withdrawn. It
+required a defeated defeater to restore a rule it cannot legitimately affect.
 
-1. Implement the well-founded operator for the acyclic case.
-2. Decide and document the semantics for **cycles** — `CONTESTED` is safe and
-   current, but it is a choice, not a derivation, and it should be defended.
-3. Re-run G1–G6. G1 and G4 are the acceptance tests.
-4. Only then re-grade the two axes.
+## The substantive result
 
-Until 1 and 2 are done, the two-axis result quoted from Experiment 0b rests on
-a **single-pass** defeat application. It was accurate for A–F, all of which are
-depth-1, but it should not be quoted for chain reasoning.
+**G5 is now `CONTESTED`, and that is the interesting answer.** A chain ending
+in a constitutional exception leaves both the agency rule and the constitution
+admitted, asserting opposite atoms. Preferring the constitution would be the
+authority-preference tiebreak the spec removes. Whether the exception reaches
+*this* case is a question of **applicability**, and applicability is not
+represented in the corpus.
+
+So the honest output is an open contest — which is also how a general rule and
+its exception actually coexist in law.
+
+## Three uncertainties, kept apart
+
+| kind | who reports it | example |
+|---|---|---|
+| `SEMANTIC` | engine | G4 cycle — the formalism is indeterminate |
+| `CORPUS` | engine | G2c — the corpus lacks a relation |
+| `IMPLEMENTATION` | **grader only** | any mutant above |
+
+`IMPLEMENTATION` is deliberately not emittable by the engine, guarded by test.
+A system that can diagnose its own implementation errors is not being audited.
+
+## What the mutation run added
+
+The first run killed 7/11. The four survivors were all *untested commitments*:
+
+- M4/M11 → case G7, two survivors asserting the same atom, so preference is
+  only visible in the trace.
+- M7 → case G8, a self-defeating rule, proving `INVALID` is distinct from
+  `CONTESTED`.
+- M9 → a test that reads the reversal out of the trace.
+
+A stated commitment with no test enforcing it is the same as an unwritten one.
+
+## Limits, stated plainly
+
+- The manifest is independent of the engine but **not of me**: same author,
+  cases and labels.
+- Everything here is **synthetic and depth-2**. No claim about real law.
+- 1.00 accuracy is against 36 cases on a corpus I designed *to make the
+  ratified semantics work*. It is a consistency result, not a capability
+  result, and it is **not comparable** to the earlier 0.94 — the corpus
+  changed underneath it.
+- What would actually falsify this is a second implementation of
+  `SEMANTICS.md` by a different author. That is the independence the manifest
+  still lacks, and it is the next thing to build.
