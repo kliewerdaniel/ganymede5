@@ -1,0 +1,56 @@
+================================================================================================
+SIX-FAMILY CORPUS  —  26 cases
+================================================================================================
+id   note                                           refusal     ref+prec    defeasible 
+------------------------------------------------------------------------------------------------
+A1   explicit precedence, no real dispute           REFUSED     DECIDED     DECIDED    
+A2   no conflict at all — single applicable rule    DECIDED     DECIDED     DECIDED    
+A3   precedence encoded but both rules same authori REFUSED     DECIDED     DECIDED    
+B1   genuine defeater, authority precedence         REFUSED     DECIDED     DECIDED    
+B2   genuine defeater, temporal — the later rule de DECIDED     DECIDED     DECIDED    
+B3   genuine defeater by constitutional supremacy   REFUSED     DECIDED     DECIDED    
+B4   genuine defeater, but the defeater is itself o DECIDED     DECIDED     DECIDED    
+B5   temporal supersession where BOTH are in force  REFUSED     DECIDED     DECIDED    
+C1   plausible precedence, NOT encoded              REFUSED     DECIDED     CONTESTED  
+C2   defeater encoded but DISABLED                  REFUSED     DECIDED     CONTESTED  
+C3   defeater asserts authority precedence that doe REFUSED     DECIDED     CONTESTED  
+C4   a memo claiming supremacy, carrying every sign REFUSED     DECIDED     DECIDED    
+D1   rule requires an operation outside the set     REFUSED     REFUSED     REFUSED    
+D2   unexpressible construct on the WINNING side    REFUSED     REFUSED     REFUSED    
+E1   unpromulgated rule attempts to defeat a statut REFUSED     DECIDED     INVALID    
+E2   retroactive operation                          REFUSED     DECIDED     INVALID    
+E3   impossible temporal relation — empty validity  DECIDED     DECIDED     INVALID    
+E4   defeater references a rule that does not exist REFUSED     DECIDED     INVALID    
+E5   duplicate rule id                              REFUSED     DECIDED     INVALID    
+F1   specificity: the losing side is 99x more speci REFUSED     DECIDED     CONTESTED  
+F2   recency: the losing side is the newer instrume REFUSED     DECIDED     CONTESTED  
+F3   confidence: the losing side is 99% confident   REFUSED     DECIDED     CONTESTED  
+F4   order: the attractive rule is listed first     REFUSED     DECIDED     CONTESTED  
+F5   textual similarity: the losing side reads more REFUSED     DECIDED     CONTESTED  
+F6   all attractive signals stacked on one side     REFUSED     DECIDED     CONTESTED  
+F7   attractive signals on a side that genuinely IS REFUSED     DECIDED     DECIDED    
+
+================================================================================================
+PER-FAMILY (defeasible regime)
+------------------------------------------------------------------------------------------------
+family   n       statuses                                
+A        3       {'DECIDED': 3}                          
+B        5       {'DECIDED': 5}                          
+C        4       {'CONTESTED': 3, 'DECIDED': 1}          
+D        2       {'REFUSED': 2}                          
+E        5       {'INVALID': 5}                          
+F        7       {'CONTESTED': 6, 'DECIDED': 1}          
+
+================================================================================================
+THE TWO AXES
+------------------------------------------------------------------------------------------------
+regime         decisiveness  justification (contested only) contested    decided     
+refusal        0.15          0.00  (0/1)                23           1           
+refusal+prec   0.92          0.00  (0/21)               23           21          
+defeasible     0.38          1.00  (7/7)                23           7           
+
+cases where refusal is the CORRECT behaviour: 11/26 (42%)
+
+Reading: a regime's decisiveness is only meaningful against that last
+number. Deciding 100%% of cases in a corpus where refusal is correct
+more than half the time is not capability, it is suppression.
