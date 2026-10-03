@@ -1,0 +1,2417 @@
+{
+ "contradicts": {
+  "Y": "NOT-Y",
+  "NOT-Y": "Y",
+  "Q1": "NOT-Q",
+  "NOT-Q": "Q1"
+ },
+ "authority_rank": {
+  "constitution": 4,
+  "legislature": 3,
+  "agency": 2,
+  "memo": 1
+ },
+ "cases": [
+  {
+   "id": "A1",
+   "family": "A",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "A",
+     "basis": "explicit_authority_precedence",
+     "provenance": "statute_01 §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "A2",
+   "family": "A",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "A3",
+   "family": "A",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "agency",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 3,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "A",
+     "basis": "explicit_rank_precedence",
+     "provenance": "statute_01 §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "B1",
+   "family": "B",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "A",
+     "basis": "explicit_authority_precedence",
+     "provenance": "statute_01 §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "B2",
+   "family": "B",
+   "state": [
+    "X"
+   ],
+   "at": 20,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "agency",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": 0,
+     "effective_to": 15,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": 15,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_lex_posterior",
+     "provenance": "regulation_07 §14",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "B3",
+   "family": "B",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "agency",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "charter_00",
+     "authority": "constitution",
+     "cites": "charter_00 art.3",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_constitutional_supremacy",
+     "provenance": "charter_00 art.3",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "B4",
+   "family": "B",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "agency",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": 0,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": 50,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_lex_posterior",
+     "provenance": "regulation_07 §14",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "B5",
+   "family": "B",
+   "state": [
+    "X"
+   ],
+   "at": 25,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "agency",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": 0,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": 15,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_lex_posterior",
+     "provenance": "regulation_07 §14",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "C1",
+   "family": "C",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "C2",
+   "family": "C",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "A",
+     "basis": "explicit_authority_precedence",
+     "provenance": "statute_01 §1",
+     "enabled": false
+    }
+   ]
+  },
+  {
+   "id": "C3",
+   "family": "C",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "memo_03",
+     "authority": "memo",
+     "cites": "memo_03 §2",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 9,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_authority_precedence",
+     "provenance": "memo_03 §2",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "C4",
+   "family": "C",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "memo_03",
+     "authority": "memo",
+     "cites": "memo_03 §2",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 99,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 99,
+     "recency": 99,
+     "length": 999,
+     "confidence": 0.99,
+     "order_index": 0,
+     "text_similarity": 0.99
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_rank_precedence",
+     "provenance": "memo_03 §2",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "D1",
+   "family": "D",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": "ROUND",
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "A",
+     "basis": "explicit_authority_precedence",
+     "provenance": "statute_01 §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "D2",
+   "family": "D",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": "DISCRETIONARY_BALANCE",
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "A",
+     "basis": "explicit_authority_precedence",
+     "provenance": "statute_01 §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "E1",
+   "family": "E",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "decree_09",
+     "authority": "agency",
+     "cites": "decree_09 §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 9,
+     "promulgated": false,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_authority_precedence",
+     "provenance": "decree_09 §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "E2",
+   "family": "E",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "agency",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": true,
+     "effective_from": 5,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_lex_posterior",
+     "provenance": "regulation_07 §14",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "E3",
+   "family": "E",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": 20,
+     "effective_to": 20,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "E4",
+   "family": "E",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "GHOST",
+     "basis": "explicit_authority_precedence",
+     "provenance": "ghost §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "E5",
+   "family": "E",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "F1",
+   "family": "F",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 1,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "memo_03",
+     "authority": "memo",
+     "cites": "memo_03 §2",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 99,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "F2",
+   "family": "F",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 1,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 99,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "F3",
+   "family": "F",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.01,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.99,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "F4",
+   "family": "F",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "memo",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 50,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 1,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 1,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "F5",
+   "family": "F",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 40,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.1
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 900,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.99
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "F6",
+   "family": "F",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 1,
+     "recency": 1,
+     "length": 30,
+     "confidence": 0.01,
+     "order_index": 1,
+     "text_similarity": 0.05
+    },
+    {
+     "id": "B",
+     "source": "memo_03",
+     "authority": "memo",
+     "cites": "memo_03 §2",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 99,
+     "recency": 99,
+     "length": 999,
+     "confidence": 0.99,
+     "order_index": 0,
+     "text_similarity": 0.99
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "F7",
+   "family": "F",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 1,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.01,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "regulation_07",
+     "authority": "agency",
+     "cites": "regulation_07 §14",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 99,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.99,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "A",
+     "basis": "explicit_authority_precedence",
+     "provenance": "statute_01 §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "G1",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "r_a",
+     "authority": "agency",
+     "cites": "r_a §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 9,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "r_b",
+     "authority": "agency",
+     "cites": "r_b §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 8,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_c",
+     "authority": "agency",
+     "cites": "r_c §1",
+     "condition": "X",
+     "conclusion": "B1",
+     "rank": 7,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "D",
+     "source": "r_d",
+     "authority": "agency",
+     "cites": "r_d §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 6,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_b §1",
+     "enabled": true
+    },
+    {
+     "defeated": "B",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_c §1",
+     "enabled": true
+    },
+    {
+     "defeated": "C",
+     "defeater": "D",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_d §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "G2",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "B",
+     "source": "r_b",
+     "authority": "agency",
+     "cites": "r_b §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_c",
+     "authority": "agency",
+     "cites": "r_c §1",
+     "condition": "X",
+     "conclusion": "B1",
+     "rank": 5,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "D",
+     "source": "r_d",
+     "authority": "agency",
+     "cites": "r_d §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 6,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "E",
+     "source": "r_e",
+     "authority": "agency",
+     "cites": "r_e §1",
+     "condition": "X",
+     "conclusion": "Z1",
+     "rank": 9,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "F",
+     "source": "r_f",
+     "authority": "agency",
+     "cites": "r_f §1",
+     "condition": "X",
+     "conclusion": "E1",
+     "rank": 8,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_c §1",
+     "enabled": true
+    },
+    {
+     "defeated": "C",
+     "defeater": "D",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_d §1",
+     "enabled": true
+    },
+    {
+     "defeated": "E",
+     "defeater": "F",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_f §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "G3",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "r_a",
+     "authority": "agency",
+     "cites": "r_a §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 9,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "r_b",
+     "authority": "agency",
+     "cites": "r_b §1",
+     "condition": "X",
+     "conclusion": "A1",
+     "rank": 8,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_c",
+     "authority": "agency",
+     "cites": "r_c §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 7,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_b §1",
+     "enabled": true
+    },
+    {
+     "defeated": "B",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_c §1",
+     "enabled": false
+    }
+   ]
+  },
+  {
+   "id": "G4",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "B",
+     "source": "r_b",
+     "authority": "agency",
+     "cites": "r_b §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_c",
+     "authority": "agency",
+     "cites": "r_c §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 7,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_c §1",
+     "enabled": true
+    },
+    {
+     "defeated": "C",
+     "defeater": "B",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_b §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "G5",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "r_a",
+     "authority": "agency",
+     "cites": "r_a §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "r_b",
+     "authority": "agency",
+     "cites": "r_b §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_c",
+     "authority": "agency",
+     "cites": "r_c §1",
+     "condition": "X",
+     "conclusion": "B1",
+     "rank": 3,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "D",
+     "source": "r_d",
+     "authority": "constitution",
+     "cites": "r_d art.1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 4,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_b §1",
+     "enabled": true
+    },
+    {
+     "defeated": "B",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_c §1",
+     "enabled": true
+    },
+    {
+     "defeated": "C",
+     "defeater": "D",
+     "basis": "explicit_exception",
+     "provenance": "r_d art.1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "G6",
+   "family": "G",
+   "state": [
+    "P",
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "r_a",
+     "authority": "agency",
+     "cites": "r_a §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "r_b",
+     "authority": "memo",
+     "cites": "r_b §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_c",
+     "authority": "agency",
+     "cites": "r_c §1",
+     "condition": "P",
+     "conclusion": "Q1",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "D",
+     "source": "r_d",
+     "authority": "memo",
+     "cites": "r_d §1",
+     "condition": "P",
+     "conclusion": "NOT-Q",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "C",
+     "basis": "explicit_authority_precedence",
+     "provenance": "r_c §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "G2b",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "B",
+     "source": "r_b",
+     "authority": "agency",
+     "cites": "r_b §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_c",
+     "authority": "agency",
+     "cites": "r_c §1",
+     "condition": "X",
+     "conclusion": "B1",
+     "rank": 5,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "D",
+     "source": "r_d",
+     "authority": "agency",
+     "cites": "r_d §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 6,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "E",
+     "source": "r_e",
+     "authority": "agency",
+     "cites": "r_e §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 9,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "F",
+     "source": "r_f",
+     "authority": "agency",
+     "cites": "r_f §1",
+     "condition": "X",
+     "conclusion": "E1",
+     "rank": 8,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_c §1",
+     "enabled": true
+    },
+    {
+     "defeated": "C",
+     "defeater": "D",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_d §1",
+     "enabled": true
+    },
+    {
+     "defeated": "E",
+     "defeater": "F",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_f §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "G2c",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "B",
+     "source": "r_b",
+     "authority": "agency",
+     "cites": "r_b §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_c",
+     "authority": "agency",
+     "cites": "r_c §1",
+     "condition": "X",
+     "conclusion": "B1",
+     "rank": 5,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "D",
+     "source": "r_d",
+     "authority": "memo",
+     "cites": "r_d §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 3,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "E",
+     "source": "r_e",
+     "authority": "memo",
+     "cites": "r_e §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 3,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "B",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_c §1",
+     "enabled": true
+    },
+    {
+     "defeated": "C",
+     "defeater": "D",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_d §1",
+     "enabled": true
+    },
+    {
+     "defeated": "E",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_c §1",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "G7",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "M",
+     "source": "r_m",
+     "authority": "memo",
+     "cites": "r_m §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "N",
+     "source": "r_n",
+     "authority": "agency",
+     "cites": "r_n §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "G8",
+   "family": "G",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "r_a",
+     "authority": "agency",
+     "cites": "r_a §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 3,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "A",
+     "basis": "explicit_chain_succession",
+     "provenance": "r_a §1",
+     "enabled": true
+    }
+   ]
+  }
+ ]
+}
