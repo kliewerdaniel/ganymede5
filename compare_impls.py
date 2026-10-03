@@ -35,13 +35,14 @@ sys.path.insert(0, str(ROOT))
 
 from corpus import run_defeasible, run_refusal  # noqa: E402
 from families import CASES as F  # noqa: E402
-from family_g import G  # noqa: E402
+from family_g import G as FG  # noqa: E402
+from family_h import H as FH  # noqa: E402
 
 
 def a_answers():
     """Implementation A, through the ordinary engine."""
     out = {}
-    for c in list(F) + list(G):
+    for c in list(F) + list(FG) + list(FH):
         r = run_defeasible(c)
         out[c.cid] = {
             "id": c.cid,

@@ -27,24 +27,24 @@ governing section **before** describing its value.
 
 | Field | Explicitly specified? | Spec section | A | B | C | D | Verdict |
 |---|---|---|---|---|---|---|---|
-| `status` DECIDED | yes | 6.1 | | | | | |
-| `status` CONTESTED (corpus) | yes | 4.x / 6.1 | | | | | |
-| `status` CONTESTED (semantic) | yes | 4.2, 4.3, 4.5 | | | | | |
-| `status` INVALID | yes | 5 | | | | | |
-| `status` REFUSED | yes | 6.1 | | | | | |
-| `status` NONFINDING | yes | 6.1 | | | | | |
-| `status` DEFEATED (reserved) | yes | 6.1 | | | | | |
-| `uncertainty` NONE | yes | 2 | | | | | |
-| `uncertainty` CORPUS | yes | 2.1 | | | | | |
-| `uncertainty` SEMANTIC | yes | 4.5 / 6.3 | | | | | |
-| `uncertainty` for REFUSED | **was silent in v0.2** | 6.1 | — | — | chose | | v0.3 target |
-| absent temporal values | yes | 4.6 | | | | | |
-| INVALID over REFUSED precedence | yes (new) | 6.2 | | | | | |
-| multi-atom → `conclusion: null` | yes | 5a | | | | | |
-| budget exhaustion ≠ SEMANTIC | yes (new) | 6.3 | | | | | |
-| `represented_reason` semantics | yes (new) | 4.8 | | | | | |
-| unsupported basis rejected | yes | 4.6 | | | | | |
-| self-defeat → INVALID | yes | 4.4 | | | | | |
+| `status` DECIDED | yes | 6.1 | derived | — | derived | **derived** | derived |
+| `status` CONTESTED (corpus) | yes | 4.x / 6.1 | derived | — | derived | **derived** | derived | |
+| `status` CONTESTED (semantic) | yes | 4.2, 4.3, 4.5 | derived | — | derived | **derived** | derived | |
+| `status` INVALID | yes | 5 | derived | — | derived | **derived** | derived | |
+| `status` REFUSED | yes | 6.1 | derived | — | derived | **derived** | derived | |
+| `status` NONFINDING | yes | 6.1 | derived | — | derived | **derived** | derived | |
+| `status` DEFEATED (reserved) | yes | 6.1 | derived | — | derived | **derived** | derived | |
+| `uncertainty` NONE | yes | 2 | derived | — | derived | **derived** | derived | |
+| `uncertainty` CORPUS | yes | 2.1 | derived | — | derived | **derived** | derived | |
+| `uncertainty` SEMANTIC | yes | 4.5 / 6.3 | derived | — | derived | **weak** | weak — 1 case | |
+| `uncertainty` for REFUSED | **silent in v0.2** | 6.1 | — | — | chose | **derived** | now derived |
+| absent temporal values | yes | 4.6 | derived | — | derived | **derived** | derived | |
+| INVALID over REFUSED precedence | yes (new) | 6.2 | derived | — | — | **derived** | derived | |
+| multi-atom → `conclusion: null` | yes | 5a | derived | — | derived | **derived** | derived | |
+| budget exhaustion ≠ SEMANTIC | yes (new) | 6.3 | derived | — | — | **vacuous** | see below | |
+| `represented_reason` semantics | yes (new) | 4.8 | derived | — | — | **derived** | derived | |
+| unsupported basis rejected | yes | 4.6 | derived | — | derived | **derived** | derived | |
+| self-defeat → INVALID | yes | 4.4 | derived | — | derived | **derived** | derived | |
 
 Fields D was specifically asked to adjudicate are marked *(new)* — those are
 where v0.2 was known-incomplete and v0.3 is being tested.
@@ -67,6 +67,28 @@ implemented this semantics."
 thin. A single case cannot distinguish "the spec determines this" from "the
 implementer had one worked example." Treat single-case coverage as
 unverified regardless of agreement.
+
+## The one field that did NOT transfer: §6.3
+
+D's engine says, in its own words, that it *discharges* the §6.3 obligation
+"structurally rather than by a counter" — its propagation loop is monotone
+within a round, so it cannot run out of budget and never faces the choice.
+
+That is a legitimate reading of the spec, and it is also **not a
+corroboration**. F-1 exists because A *did* have a budget and *did* convert
+exhaustion into `SEMANTIC`. A different implementation that never allocates a
+budget cannot confirm the rule is specified; it can only decline to violate
+it. The field is marked `vacuous`, not `derived`.
+
+Consequence for the research question: whether an operational limit is
+epistemically inert is **implementation-dependent and therefore not settled by
+a specification**. The spec constrains the *reporting*; it cannot prevent one
+engine from inventing a limit another has no reason to have. This is a real
+limit on transfer and it is recorded rather than scored as a pass.
+
+The same logic applies to `SEMANTIC`: one exercising case (G4) and one
+implementation that finds it by a structurally different route is better than
+nothing and is not sufficient.
 
 ## Rules for using this file
 
