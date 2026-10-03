@@ -24,7 +24,7 @@ What emerged is not a governance model. It is a demonstration that these layers 
 |---|---|
 | Specification | `SEMANTICS.md` v0.3, 330 lines, **digest-pinned** |
 | Corpus | 41 synthetic cases, 8 families |
-| Implementations | 4 independent — Python, Rust (×2), Node — **0 disagreements** |
+| Implementations | 4 independent — Python, Rust (×2), Node — **3 at 41/41, B at 35/41** |
 | Test suite | 78 tests |
 | Mutation testing | 19/19 mutants killed |
 | Measurement checks | 7/7 adversarial detectors, incl. a negative control |
@@ -74,11 +74,39 @@ Four independent implementations were written against `SEMANTICS.md` and `CORPUS
 | | Language | Representation | Verdict |
 |---|---|---|---|
 | **A** | Python | set-based grounded fixpoint | reference |
-| **B** | Rust | `u64` bitwords + Warshall closure | 41/41 |
+| **B** | Rust | `u64` bitwords + Warshall closure | **35/41** — see below |
 | **C** | Node | BigInt masks + Tarjan SCC | 41/41 |
 | **D** | Rust | labelled attack graph, attacker-count propagation | 41/41 |
 
-Four languages, four representations, zero disagreements. That is a real result about specification determinacy — and the derivation scorecard is what makes it real rather than lucky.
+Three of four reach 41/41. That is a real result about specification determinacy — and the derivation scorecard is what makes it real rather than lucky.
+
+### B is stale, and that is a finding rather than a defect in the specification
+
+`impl_b` was written against **spec v0.1** and was never advanced. Its source contains no
+reference to any of the five §5 corpus-validity invariants (`F1_GENERALITY`,
+`F2_PROMULGATION`, `F3_NON_RETROACTIVITY`, `F5_NON_CONTRADICTION`, `F7_CONSTANCY`),
+which spec v0.2 introduced. Run against the current 41-case corpus it disagrees with A
+on exactly six cases, and every one is a §5 invariant B never learned:
+
+| case | invariant A enforces | B's answer |
+|---|---|---|
+| E1 | `F2_PROMULGATION` — rule B is unpromulgated | `CONTESTED/CORPUS` |
+| E2 | `F3_NON_RETROACTIVITY` — retroactive **and** carries `effective_from` | `DECIDED/NONE` |
+| E3 | `F7_CONSTANCY` — `effective_from >= effective_to` | `DECIDED/NONE` |
+| E4 | `F1_GENERALITY` — defeat names `GHOST`, which does not exist | `CONTESTED/CORPUS` |
+| E5 | `F5_NON_CONTRADICTION` — two rules share id `A` | `CONTESTED/CORPUS` |
+| H3 | `F7_CONSTANCY` | `REFUSED/NONE` |
+
+C and D implement all five invariants and agree with A on all 41. So the disagreement
+is **localised to B's vintage, not to the specification**: the semantics compels
+`INVALID/CORPUS` here (§2.1, §5), B simply predates the clause.
+
+This is left unrepaired on purpose. B is the frozen v0.1 artifact, and rewriting it to
+match v0.3 would destroy the only surviving record of *what the specification failed to
+say* — the exact evidence that produced the v0.2 decision. A stale implementation that
+disagrees loudly is worth more than a refreshed one that agrees quietly. `impl_b.json`
+(36 cases, v0.1) is preserved unchanged; the regenerated run is versioned separately as
+`impl_b-v0.3.json`.
 
 ### Agreement is not derivation
 
@@ -215,9 +243,11 @@ python3 adversarial_measure.py                               # 7/7 detectors
 # Refuses to report agreement if the case sets differ.
 python3 compare_impls.py impl_d.json
 
-# Optional engines
+# impl_c takes a FILE PATH in and a FILE PATH out
 cd impl_c && node engine.js ../corpus_export.json ../impl_c.json
-# impl_b and impl_d take a BASE DIRECTORY, not a file path
+# impl_b also takes FILE PATHS (corpus in, results out) -- NOT a base directory
+cd impl_b && cargo build --release --offline && ./target/release/impl_b ../corpus_export.json ../impl_b-v0.3.json
+# impl_d alone takes a BASE DIRECTORY (it derives both corpus and output paths from it)
 cd impl_d && cargo build --release --offline && ./target/release/impl_d ..
 ```
 
@@ -243,7 +273,7 @@ Stated plainly, because the temptation to overclaim is the exact failure mode th
 
 - An independently enumerated observation boundary, verified against a neutral corpus no implementation controls.
 - Mechanical detection of specification drift.
-- Four independent implementations agreeing on 41/41 cases, with 16 of 18 tracked fields **derived** from quoted specification sections.
+- Three independent implementations agreeing on 41/41 cases, with 16 of 18 tracked fields **derived** from quoted specification sections. The fourth (`B`) agrees on 35/41 and is frozen at spec v0.1; its six disagreements all trace to §5 clauses added in v0.2.
 - Adversarial detection of seven classes of measurement failure, including a negative control proving the detectors can fail.
 
 **Not established**

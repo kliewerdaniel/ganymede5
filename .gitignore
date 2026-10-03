@@ -4,3 +4,9 @@ __pycache__/
 # Rust build artifacts -- rebuildable, and they embed absolute local paths
 # which would leak into published history.
 target/
+
+# Scratch output from ad-hoc runs, not evidence.
+tests.txt
+tf.txt
+run.txt
+families.txt

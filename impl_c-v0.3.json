@@ -1,0 +1,1667 @@
+[
+  {
+    "id": "A1",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "A"
+    ],
+    "defeated": [
+      "B"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "A",
+        "defeated": "B",
+        "basis": "explicit_authority_precedence",
+        "active": true,
+        "why": "3>2"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "atoms": [
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "A2",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "A"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "atoms": [
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "A3",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "A"
+    ],
+    "defeated": [
+      "B"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "A",
+        "defeated": "B",
+        "basis": "explicit_rank_precedence",
+        "active": true,
+        "why": "3>1"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "atoms": [
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "B1",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "A"
+    ],
+    "defeated": [
+      "B"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "A",
+        "defeated": "B",
+        "basis": "explicit_authority_precedence",
+        "active": true,
+        "why": "3>2"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "atoms": [
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "B2",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_lex_posterior",
+        "active": false,
+        "why": "OUT_OF_THETA"
+      },
+      {
+        "n": 0,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "atoms": [
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "B3",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "B"
+    ],
+    "defeated": [
+      "A"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_constitutional_supremacy",
+        "active": true,
+        "why": "4>2"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "atoms": [
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "B4",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "A"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_lex_posterior",
+        "active": false,
+        "why": "OUT_OF_THETA"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "atoms": [
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "B5",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "B"
+    ],
+    "defeated": [
+      "A"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_lex_posterior",
+        "active": true,
+        "why": "15>0"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "atoms": [
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "C1",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "C2",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defeater": "A",
+        "defeated": "B",
+        "basis": "explicit_authority_precedence",
+        "active": false,
+        "why": "DISABLED"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "C3",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_authority_precedence",
+        "active": false,
+        "why": "1>3"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "C4",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "B"
+    ],
+    "defeated": [
+      "A"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_rank_precedence",
+        "active": true,
+        "why": "99>1"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "atoms": [
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "D1",
+    "status": "REFUSED",
+    "conclusion": null,
+    "uncertainty": "NONE",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "requires_construct": "ROUND"
+      }
+    ]
+  },
+  {
+    "id": "D2",
+    "status": "REFUSED",
+    "conclusion": null,
+    "uncertainty": "NONE",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "requires_construct": "DISCRETIONARY_BALANCE"
+      }
+    ]
+  },
+  {
+    "id": "E1",
+    "status": "INVALID",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defects": [
+          "F2_PROMULGATION:B"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E2",
+    "status": "INVALID",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defects": [
+          "F3_NON_RETROACTIVITY:B"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E3",
+    "status": "INVALID",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defects": [
+          "F7_CONSTANCY:A"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E4",
+    "status": "INVALID",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defects": [
+          "F1_GENERALITY:defeater=GHOST"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "E5",
+    "status": "INVALID",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defects": [
+          "F5_NON_CONTRADICTION:A"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "F1",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "F2",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "F3",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "F4",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "B",
+      "A"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "B",
+          "A"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "B",
+          "A"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "NOT-Y",
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "F5",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "F6",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "F7",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "A"
+    ],
+    "defeated": [
+      "B"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "A",
+        "defeated": "B",
+        "basis": "explicit_authority_precedence",
+        "active": true,
+        "why": "3>2"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "A"
+        ]
+      },
+      {
+        "atoms": [
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G1",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "B",
+      "D"
+    ],
+    "defeated": [
+      "A",
+      "C"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "C",
+        "defeated": "B",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "D",
+        "defeated": "C",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "D"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "A",
+          "B",
+          "D"
+        ]
+      },
+      {
+        "n": 3,
+        "S": [
+          "B",
+          "D"
+        ]
+      },
+      {
+        "n": 4,
+        "S": [
+          "B",
+          "D"
+        ]
+      },
+      {
+        "atoms": [
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G2",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "B",
+      "D",
+      "F"
+    ],
+    "defeated": [
+      "C",
+      "E"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "C",
+        "defeated": "B",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "D",
+        "defeated": "C",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "F",
+        "defeated": "E",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "n": 0,
+        "S": [
+          "B",
+          "C",
+          "D",
+          "E",
+          "F"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "D",
+          "F"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "B",
+          "D",
+          "F"
+        ]
+      },
+      {
+        "n": 3,
+        "S": [
+          "B",
+          "D",
+          "F"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y",
+          "E1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G3",
+    "status": "DECIDED",
+    "conclusion": null,
+    "uncertainty": "NONE",
+    "accepted": [
+      "B",
+      "C"
+    ],
+    "defeated": [
+      "A"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "C",
+        "defeated": "B",
+        "basis": "explicit_chain_succession",
+        "active": false,
+        "why": "DISABLED"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "B",
+          "C"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "B",
+          "C"
+        ]
+      },
+      {
+        "note": "5a.2 multiple distinct surviving atoms",
+        "atoms": [
+          "A1",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G4",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "SEMANTIC",
+    "accepted": [],
+    "defeated": [
+      "B",
+      "C"
+    ],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defeater": "C",
+        "defeated": "B",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "B",
+        "defeated": "C",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "n": 0,
+        "S": [
+          "B",
+          "C"
+        ]
+      },
+      {
+        "n": 1,
+        "S": []
+      },
+      {
+        "n": 2,
+        "S": [
+          "B",
+          "C"
+        ]
+      },
+      {
+        "n": 3,
+        "S": []
+      },
+      {
+        "n": 4,
+        "S": [
+          "B",
+          "C"
+        ]
+      },
+      {
+        "n": 5,
+        "S": []
+      },
+      {
+        "n": 6,
+        "S": [
+          "B",
+          "C"
+        ]
+      },
+      {
+        "cycle_members": [
+          [
+            "B",
+            "C"
+          ]
+        ],
+        "bound": 6,
+        "steps": 7
+      }
+    ]
+  },
+  {
+    "id": "G5",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "B",
+      "D"
+    ],
+    "defeated": [
+      "A",
+      "C"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "C",
+        "defeated": "B",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "D",
+        "defeated": "C",
+        "basis": "explicit_exception",
+        "active": true,
+        "why": "explicit_exception"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "D"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "A",
+          "B",
+          "D"
+        ]
+      },
+      {
+        "n": 3,
+        "S": [
+          "B",
+          "D"
+        ]
+      },
+      {
+        "n": 4,
+        "S": [
+          "B",
+          "D"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "NOT-Y",
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G6",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defeater": "C",
+        "defeated": "A",
+        "basis": "explicit_authority_precedence",
+        "active": false,
+        "why": "2>2"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y",
+          "Q1",
+          "NOT-Q"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G2b",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "B",
+      "D",
+      "F"
+    ],
+    "defeated": [
+      "C",
+      "E"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "C",
+        "defeated": "B",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "D",
+        "defeated": "C",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "F",
+        "defeated": "E",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "n": 0,
+        "S": [
+          "B",
+          "C",
+          "D",
+          "E",
+          "F"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "D",
+          "F"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "B",
+          "D",
+          "F"
+        ]
+      },
+      {
+        "n": 3,
+        "S": [
+          "B",
+          "D",
+          "F"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y",
+          "E1"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G2c",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [
+      "B",
+      "D",
+      "E"
+    ],
+    "defeated": [
+      "C"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "C",
+        "defeated": "B",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "D",
+        "defeated": "C",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "C",
+        "defeated": "E",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "n": 0,
+        "S": [
+          "B",
+          "C",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "D"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "B",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "n": 3,
+        "S": [
+          "B",
+          "D",
+          "E"
+        ]
+      },
+      {
+        "note": "5a.3 contradictory survivors",
+        "atoms": [
+          "Y",
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G7",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "M",
+      "N"
+    ],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "n": 0,
+        "S": [
+          "M",
+          "N"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "M",
+          "N"
+        ]
+      },
+      {
+        "atoms": [
+          "Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "G8",
+    "status": "INVALID",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "self_defeat": "A"
+      }
+    ]
+  },
+  {
+    "id": "H1",
+    "status": "NONFINDING",
+    "conclusion": null,
+    "uncertainty": "NONE",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "theta": []
+      }
+    ]
+  },
+  {
+    "id": "H2",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "B"
+    ],
+    "defeated": [
+      "A"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_constitutional_supremacy",
+        "active": true,
+        "why": "4>3"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "B"
+        ]
+      },
+      {
+        "atoms": [
+          "NOT-Y"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "H3",
+    "status": "INVALID",
+    "conclusion": null,
+    "uncertainty": "CORPUS",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "defects": [
+          "F7_CONSTANCY:A"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "H4",
+    "status": "NONFINDING",
+    "conclusion": null,
+    "uncertainty": "NONE",
+    "accepted": [],
+    "defeated": [],
+    "represented_reason": false,
+    "trace": [
+      {
+        "theta": []
+      }
+    ]
+  },
+  {
+    "id": "H5",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "uncertainty": "NONE",
+    "accepted": [
+      "B",
+      "D"
+    ],
+    "defeated": [
+      "A",
+      "C"
+    ],
+    "represented_reason": true,
+    "trace": [
+      {
+        "defeater": "B",
+        "defeated": "A",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "C",
+        "defeated": "B",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "defeater": "D",
+        "defeated": "C",
+        "basis": "explicit_chain_succession",
+        "active": true,
+        "why": "explicit_chain_succession"
+      },
+      {
+        "n": 0,
+        "S": [
+          "A",
+          "B",
+          "C",
+          "D"
+        ]
+      },
+      {
+        "n": 1,
+        "S": [
+          "D"
+        ]
+      },
+      {
+        "n": 2,
+        "S": [
+          "A",
+          "B",
+          "D"
+        ]
+      },
+      {
+        "n": 3,
+        "S": [
+          "B",
+          "D"
+        ]
+      },
+      {
+        "n": 4,
+        "S": [
+          "B",
+          "D"
+        ]
+      },
+      {
+        "atoms": [
+          "NOT-Y"
+        ]
+      }
+    ]
+  }
+]
