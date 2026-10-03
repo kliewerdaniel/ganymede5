@@ -124,6 +124,18 @@ class Case:
 
 def run_refusal(c: Case, encoded_precedence: bool = False) -> dict:
     trace = []
+    # 6.2 precedence, first clause. Corpus validity is checked before anything
+    # else in EVERY regime, not only the defeasible one. A refusal regime that
+    # does not validate its corpus will report REFUSED on a corpus that is
+    # simply broken -- which converts a detectable defect into an apparent
+    # virtue of restraint. Refusing to answer a malformed corpus is the one
+    # answer the corpus cannot earn.
+    violations = check_invariants(c)
+    if violations:
+        return out(INVALID, trace, audit=True,
+                    reason="corpus integrity: " + violations[0],
+                    represented_reason=False)
+
     blocked = [r for r in c.rules if r.requires_construct]
     if blocked:
         return out(REFUSED, trace, audit=True,

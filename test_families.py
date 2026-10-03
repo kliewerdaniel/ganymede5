@@ -70,24 +70,28 @@ class FamilyE_ArgumentationCannotRescue(unittest.TestCase):
         self.assertTrue(c.defeats, "E1 must carry a defeater, or it tests nothing")
         self.assertEqual(d("E1")["status"], INVALID)
 
-    def test_refusal_arm_cannot_detect_family_e(self):
-        """Recorded as a known limitation of the control, not a pass. The
-        refusal regime has no invariant layer, so it misses corpus defects.
+    def test_every_arm_validates_the_corpus_before_answering(self):
+        """v0.3 6.2, first clause, enforced in EVERY regime.
 
-        The misses are of two different kinds, and the distinction matters:
-        E1/E2/E4/E5 it answers `REFUSED` or `DECIDED` where `INVALID` was
-        required. E3 it answers `DECIDED` — rule B still applies, so the
-        corpus looks decidable and the empty-validity-interval defect is
-        completely invisible. That is the worst of the five: a silently
-        malformed corpus that produces a confident answer.
+        This was previously a known limitation of the refusal arms, and the
+        limitation was worse than it looked: on E3 the refusal arm returned
+        DECIDED. Rule B still applies, so the corpus looked decidable and the
+        empty-validity-interval defect was completely invisible -- a silently
+        malformed corpus producing a confident answer. Restraint is not a
+        substitute for validation; refusing to answer a malformed corpus is
+        the one answer the corpus cannot earn.
+
+        The invariant layer now runs first in all three arms. What remains
+        regime-specific is only how a VALID corpus with nothing to say is
+        handled, which is the genuine subject of the experiment.
         """
-        misses = {c.cid: run_refusal(c, False)["status"]
-                  for c in CASES if c.family == "E"
-                  and run_refusal(c, False)["status"] != INVALID}
-        self.assertEqual(sorted(misses), ["E1", "E2", "E3", "E4", "E5"])
-        self.assertEqual(misses["E3"], "DECIDED")
         for cid in ("E1", "E2", "E3", "E4", "E5"):
-            self.assertIn(misses[cid], {"REFUSED", "DECIDED"}, cid)
+            case = [c for c in CASES if c.cid == cid][0]
+            for arm, fn in (("refusal", lambda c: run_refusal(c, False)),
+                            ("refusal+prec", lambda c: run_refusal(c, True)),
+                            ("defeasible", run_defeasible)):
+                self.assertEqual(fn(case)["status"], INVALID,
+                                 "%s/%s answered a defective corpus" % (arm, cid))
 
     def test_defeasible_arm_catches_every_family_e_defect(self):
         for c in [x for x in CASES if x.family == "E"]:
@@ -207,13 +211,28 @@ class TwoAxes(unittest.TestCase):
         self.assertGreater(n, len(CASES) * 0.25)
         self.assertLess(n, len(CASES) * 0.75)
 
-    def test_precedence_arm_has_max_decisiveness_and_zero_justification(self):
-        """The headline finding. A deterministic precedence rule can reach
-        near-total decisiveness while producing zero represented reasons."""
+    def test_precedence_arm_decides_without_justifying(self):
+        """The headline finding, restated after v0.3.
+
+        This arm used to score decisiveness 1.00 with zero represented
+        reasons -- maximum decisiveness purchased by having no reason for any
+        of it. That number was partly fraudulent: it included E1-E5, where
+        the arm confidently answered a corpus it never validated. Once it
+        validates first, it scores 0.73, and every point it loses is one it
+        was inventing.
+
+        The finding survives and is better for the loss. What the arm still
+        demonstrates is the thing that matters: it reaches its decisions
+        without a single represented reason. Decisiveness and justification
+        are separate axes, and a precedence rule buys the first with the
+        corpus's money.
+        """
         t = measure(CASES)
         m = t["refusal+prec"]
-        self.assertGreater(m["decisiveness"], 0.8)
+        self.assertGreater(m["decisiveness"], 0.70)
         self.assertEqual(m["justified"], 0)
+        # it must not claim more than it can show for itself
+        self.assertGreater(m["decisiveness"], t["defeasible"]["decisiveness"])
 
     def test_defeasible_arm_is_lower_decisive_but_fully_justified(self):
         t = measure(CASES)

@@ -26,6 +26,7 @@ Every mutant here is a violation of a ratified commitment, not a random bug:
   M16 oscillation -> NONE, never SEMANTIC  breaks 4.5
   M17 INVALID loses to REFUSED           breaks 6.2 precedence
   M18 nothing-triggered -> DEFEATED      breaks 6.1 reserved status
+  M19 refusal arm skips corpus validation breaks 6.2 clause 1
 """
 import re
 import subprocess
@@ -138,6 +139,10 @@ MUTANTS = [
      "nothing-applicable reported as DEFEATED (a reserved status)",
      '        return out(NONFINDING, trace, reason="no rule triggered on state", represented_reason=False)',
      '        return out(DEFEATED, trace, reason="no rule triggered on state", represented_reason=False)'),
+    ("M19", "corpus.py",
+     "refusal arm skips the invariant layer (6.2 clause 1)",
+     "    violations = check_invariants(c)\n    if violations:\n        return out(INVALID, trace, audit=True,",
+     "    violations = []\n    if violations and False:\n        return out(INVALID, trace, audit=True,"),
 ]
 
 

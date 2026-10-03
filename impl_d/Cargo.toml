@@ -1,0 +1,11 @@
+[package]
+name = "impl_d"
+version = "0.3.0"
+edition = "2021"
+
+# No dependencies on purpose: impl_d must be buildable from SEMANTICS.md +
+# CORPUS_FORMAT.md alone, offline, with no crate registry available.
+
+[[bin]]
+name = "impl_d"
+path = "src/main.rs"
