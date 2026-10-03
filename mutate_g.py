@@ -19,6 +19,13 @@ Every mutant here is a violation of a ratified commitment, not a random bug:
   M9  drop the reversal from trace breaks the witness property
   M10 drop defeated from CONTESTED the record bug found this round
   M11 tiebreak on rank            breaks 4.6
+  M12 pick an atom by declaration order   breaks 5a.4
+  M13 INVALID reported as NONE           breaks 2.1
+  M14 absent date read as -inf           breaks 4.6
+  M15 exhausted budget -> SEMANTIC       breaks 6.3 (F-1)
+  M16 oscillation -> NONE, never SEMANTIC  breaks 4.5
+  M17 INVALID loses to REFUSED           breaks 6.2 precedence
+  M18 nothing-triggered -> DEFEATED      breaks 6.1 reserved status
 """
 import re
 import subprocess
@@ -110,6 +117,27 @@ MUTANTS = [
      "tiebreak survivors on numeric rank",
      "    return sorted(survivors, key=lambda r: r.id)[0]",
      "    return sorted(survivors, key=lambda r: r.rank, reverse=True)[0]"),
+    # --- SIT v0.3: the rules Family H was built to force ---
+
+    ("M15", "semantics.py",
+     "exhausted iteration budget reported as SEMANTIC (F-1)",
+     "    raise BudgetExhausted(",
+     "    return s, SEMANTIC, history\n    _dead = ("),
+
+    ("M16", "semantics.py",
+     "oscillation silently stabilised instead of reported",
+     "            return s, SEMANTIC, history",
+     "            return s, NONE, history"),
+
+    ("M17", "corpus.py",
+     "precedence inverted: REFUSED decided before INVALID",
+     '    blocked = [r for r in c.rules if r.requires_construct]\n    if blocked:\n        return out(REFUSED, trace, audit=True,\n                    reason="operation set cannot express %s" % blocked[0].requires_construct,\n                    represented_reason=False)',
+     "    blocked = []\n    if blocked and False:\n        return out(REFUSED, trace, audit=True,\n                    reason='x', represented_reason=False)"),
+
+    ("M18", "corpus.py",
+     "nothing-applicable reported as DEFEATED (a reserved status)",
+     '        return out(NONFINDING, trace, reason="no rule triggered on state", represented_reason=False)',
+     '        return out(DEFEATED, trace, reason="no rule triggered on state", represented_reason=False)'),
 ]
 
 

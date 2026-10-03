@@ -2412,6 +2412,299 @@
      "enabled": true
     }
    ]
+  },
+  {
+   "id": "H1",
+   "family": "H",
+   "state": [
+    "Z"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 0,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "H2",
+   "family": "H",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 0,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "const_02",
+     "authority": "constitution",
+     "cites": "const §2",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 0,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_constitutional_supremacy",
+     "provenance": "const §2: the statute yields to this clause",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "H3",
+   "family": "H",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 0,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": 20,
+     "effective_to": 20,
+     "requires_construct": "counterfactual",
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": []
+  },
+  {
+   "id": "H4",
+   "family": "H",
+   "state": [
+    "Z"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "statute_01",
+     "authority": "legislature",
+     "cites": "statute_01 §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 0,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "decree_01",
+     "authority": "executive",
+     "cites": "decree_01 §1",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 0,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_constitutional_supremacy",
+     "provenance": "const §2",
+     "enabled": true
+    }
+   ]
+  },
+  {
+   "id": "H5",
+   "family": "H",
+   "state": [
+    "X"
+   ],
+   "at": 10,
+   "rules": [
+    {
+     "id": "A",
+     "source": "r_A",
+     "authority": "agency",
+     "cites": "r §1",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 4,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "B",
+     "source": "r_B",
+     "authority": "agency",
+     "cites": "r §2",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 3,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "C",
+     "source": "r_C",
+     "authority": "agency",
+     "cites": "r §3",
+     "condition": "X",
+     "conclusion": "Y",
+     "rank": 2,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    },
+    {
+     "id": "D",
+     "source": "r_D",
+     "authority": "agency",
+     "cites": "r §4",
+     "condition": "X",
+     "conclusion": "NOT-Y",
+     "rank": 1,
+     "promulgated": true,
+     "retroactive": false,
+     "effective_from": null,
+     "effective_to": null,
+     "requires_construct": null,
+     "specificity": 0,
+     "recency": 0,
+     "length": 0,
+     "confidence": 0.0,
+     "order_index": 0,
+     "text_similarity": 0.0
+    }
+   ],
+   "defeats": [
+    {
+     "defeated": "A",
+     "defeater": "B",
+     "basis": "explicit_chain_succession",
+     "provenance": "ch §2",
+     "enabled": true
+    },
+    {
+     "defeated": "B",
+     "defeater": "C",
+     "basis": "explicit_chain_succession",
+     "provenance": "ch §3",
+     "enabled": true
+    },
+    {
+     "defeated": "C",
+     "defeater": "D",
+     "basis": "explicit_chain_succession",
+     "provenance": "ch §4",
+     "enabled": true
+    }
+   ]
   }
  ]
 }

@@ -437,3 +437,88 @@ class RegimeContrast(unittest.TestCase):
         """The independent manifest must encode the v0.2 rule, not the old
         declaration-order answer."""
         self.assertIsNone(MANIFEST["G3"].get("conclusion"))
+
+
+class SpecV03(unittest.TestCase):
+    """Guards for MILESTONE-SIT-V0.3: budget exhaustion, and Family H reachability.
+
+    F-1 was live for two milestones: SEMANTIC was returned both for a genuine
+    oscillation and for an exhausted loop bound. The two are different claims
+    about different objects, and a small budget let a well-founded chain
+    report itself indeterminate. These tests make that unobservable.
+    """
+
+    def test_exhausted_budget_is_not_reported_as_indeterminacy(self):
+        """F-1. A starved budget must not produce an epistemic verdict."""
+        from semantics import accepted, BudgetExhausted
+        chain = [("D", "C"), ("C", "B"), ("B", "A")]   # well founded
+        # Acyclicity is a graph property and is independent of the budget:
+        from semantics import cycle_members
+        self.assertEqual(cycle_members(chain), [],
+                         "fixture must be acyclic or it proves nothing")
+        with self.assertRaises(BudgetExhausted):
+            accepted({"A", "B", "C", "D"}, chain, max_rounds=2)
+
+    def test_oscillation_still_reports_semantic(self):
+        """The fix must not silence the genuine finding."""
+        from semantics import accepted, cycle_members
+        mutual = [("B", "A"), ("A", "B")]
+        self.assertTrue(cycle_members(mutual))
+        acc, unc, _ = accepted({"A", "B", "C", "D"}, mutual, max_rounds=2)
+        self.assertEqual(unc, "SEMANTIC",
+                         "a cycle is a finding about the corpus, not a bug")
+
+    def test_dead_states_are_either_reachable_or_reserved(self):
+        """R-5. A status may not be claimed and unreachable at once.
+
+        DEFEATED looked reachable: 27 of the 64 three-node defeat graphs DO
+        yield an empty extension. But every one of them also OSCILLATES, so
+        the SEMANTIC branch (4.5) returns before the `not survivors` branch is
+        ever reached. The state is unreachable for a subtler reason than "no
+        empty extension exists" -- it is unreachable because the only way to
+        empty the extension is to destroy the fixpoint that defines it.
+
+        Exhaustive check below pins that reasoning. If a future semantic
+        change makes DEFEATED genuinely reachable, this test fails and the
+        reservation in SEMANTICS.md 6.1 must be revisited.
+        """
+        import itertools
+        from semantics import accepted
+        ids = ["A", "B", "C"]
+        rels = [(x, y) for x in ids for y in ids if x != y]
+        empty_via_semantic = 0
+        for k in range(len(rels) + 1):
+            for comb in itertools.combinations(rels, k):
+                acc, unc, _ = accepted(set(ids), list(comb))
+                if not acc:
+                    empty_via_semantic += 1
+                    self.assertEqual(unc, "SEMANTIC",
+                        "an empty extension must arrive via 4.5, not silently")
+        self.assertEqual(empty_via_semantic, 27,
+                         "the enumeration changed; re-derive the 6.1 reservation")
+
+    def test_nothing_applicable_is_nonfinding_not_defeated(self):
+        """H1/H4. No applicable argument is an absence of answers, not a kill."""
+        from family_h import H
+        by = {c.cid: c for c in H}
+        for cid in ("H1", "H4"):
+            r = run_defeasible(by[cid])
+            self.assertEqual(r["status"], "NONFINDING", cid)
+            self.assertEqual(r["uncertainty"], "NONE", cid)
+
+    def test_defeated_rule_stays_visible_when_another_survives(self):
+        """H2. A defeater that silently vanishes is indistinguishable from H1."""
+        from family_h import H
+        r = run_defeasible(next(c for c in H if c.cid == "H2"))
+        self.assertEqual(r["status"], "DECIDED")
+        self.assertEqual(r.get("defeated"), ["A"],
+                         "the defeated rule must survive into the output")
+        self.assertTrue(any(t[0] == "defeat_effective" for t in r["trace"]))
+
+    def test_invalid_beats_unrepresentable(self):
+        """R-4. A corpus that is both defective and unrepresentable: the spec
+        now says INVALID, and the case exists so the ordering cannot drift."""
+        from family_h import H
+        r = run_defeasible(next(c for c in H if c.cid == "H3"))
+        self.assertEqual(r["status"], "INVALID")
+        self.assertEqual(r["uncertainty"], "CORPUS")

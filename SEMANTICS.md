@@ -257,21 +257,74 @@ preferring one.
 
 ## 6. Status vocabulary
 
-Unchanged and deliberately small. `CONTESTED` and `INVALID` are not failures.
+### 6.1 Every status has a defined meaning, or is declared reserved
 
-| status | meaning |
-|---|---|
-| `DECIDED` | rules entail an outcome; every defeat applied rests on a represented, basis-satisfying relation |
-| `DEFEATED` | every triggered rule was defeated |
-| `CONTESTED` | arguments for contradictory conclusions survive; the contest is reported, not resolved |
-| `REFUSED` | the case requires a construct the representation cannot express |
-| `NONFINDING` | no rule is triggered at the relevant time; absence of a finding is not absence of a fault |
-| `INVALID` | the corpus is defective: it violates a validity invariant of §5 |
+A status that cannot be produced is worse than an absent one: it advertises a
+capability the system does not have. Each status below therefore carries either
+a production rule or an explicit reservation.
 
-## 7. Consequence for the two axes
+| status | produced when | uncertainty |
+|---|---|---|
+| `DECIDED` | a grounded extension exists and yields 0 or 1 unique conclusion | `NONE` |
+| `CONTESTED` | a represented contradiction, or unresolved cyclic structure | `CORPUS` / `SEMANTIC` |
+| `REFUSED` | the query requires a construct the representation cannot express | `NONE` |
+| `NONFINDING` | the corpus is sound and no rule's condition holds | `NONE` |
+| `INVALID` | a §5 validity invariant is violated | `CORPUS` |
 
-`DECIDED` with a represented defeat relation is the only cell that is both
-decisive and justified. A regime that raises decisiveness while justification
-stays flat has converted absent representation into a decision — and this
-document makes that conversion impossible to perform silently, because there is
-no tiebreak available to perform it with.
+**`DEFEATED` is RESERVED.** It is specified, implemented, and unreachable.
+
+The reason is not that empty extensions are impossible — 27 of the 64
+three-node defeat graphs do yield one. The reason is that every such graph also
+oscillates, so §4.5 returns `CONTESTED/SEMANTIC` before the empty-extension
+branch is reached. Emptying the extension destroys the fixpoint that defines
+it. The state is therefore reserved pending a semantics under which a grounded
+extension can be empty without being undefined — for example a defeasible
+*query* whose support is wholly defeated while the framework remains well
+founded. Do not remove this reservation by constructing a case; construct the
+semantics first.
+
+### 6.2 Precedence when conditions compete
+
+Both conditions in this table can hold on one corpus. The order is normative.
+
+1. **`INVALID` beats `REFUSED`.** A corpus that is structurally defective and
+   unrepresentable reports `INVALID/CORPUS` (§5). The defect is knowable
+   without the representation, so reporting `REFUSED` would let a malformed
+   corpus hide behind a capability limit. Corpus H3 pins this.
+2. **`INVALID` beats `NONFINDING`.** Nothing triggering is not evidence that a
+   defective corpus is merely quiet.
+3. **`REFUSED` beats `NONFINDING`.** An inexpressible query is not an absent
+   answer.
+4. **`NONFINDING` beats `DEFEATED`**, vacuously: `DEFEATED` is reserved (§6.1).
+
+### 6.3 Operational limits are not epistemic results
+
+`SEMANTIC` means *this framework has no well-founded extension*. It may be
+returned only on a demonstrated oscillation.
+
+An exhausted iteration bound is a fact about the caller's loop, not about the
+corpus. An implementation that returns `SEMANTIC` when its budget runs out has
+learned nothing and asserted everything. Implementations **must** raise or
+report an operational error instead. The default bound is derived from |θ| and
+provably suffices for a well-founded framework, so exhaustion indicates a
+programming error.
+
+This is the general rule the project keeps re-learning, now stated once:
+
+> **Absence has no semantic meaning unless this specification explicitly
+> assigns one.** A value a language or framework supplies by default — a null,
+> an absent date, a missing branch, an exhausted bound, an unset field — must
+> never acquire meaning because an implementation needed one.
+
+Observed five times: absent `effective_from` read as `-inf`; absent
+uncertainty defaulted to `NONE`; declaration order used as an atom preference;
+an exhausted bound read as indeterminacy; and a status advertised that no
+corpus could reach.
+
+### 6.4 Specification completeness criterion
+
+Every externally observable field must have: an enumerated domain; a semantic
+definition for each permitted value; defined behaviour for absence; defined
+behaviour for conflicting conditions; and defined precedence where conditions
+compete. A field missing any of the five is underspecified, and agreement
+between implementations on it is coincidence rather than derivation.

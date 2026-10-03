@@ -24,9 +24,10 @@ from collections import defaultdict
 from corpus import run_refusal, run_defeasible, DECIDED
 from families import CASES
 from family_g import G as CASES_G
+from family_h import H as CASES_H
 from expected import MANIFEST
 
-ALL = list(CASES) + list(CASES_G)
+ALL = list(CASES) + list(CASES_G) + list(CASES_H)
 
 REGIMES = [
     ("refusal_only", lambda c: run_refusal(c, False)),

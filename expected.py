@@ -312,6 +312,51 @@ MANIFEST = {
                why="a rule that defeats itself asserts something incoherent. "
                    "No amount of argumentation licenses an outcome on it"),
 
+    # --- Family H (SIT v0.3): reachability and precedence ---
+    # H1 -- a sound corpus and a well-formed query with no applicable rule.
+    # Nothing is contested and nothing is killed; the answer is simply absent.
+    # NONFINDING, because "no rule applies" is a finding about the corpus and
+    # not a defect in it.
+    "H1": dict(status="NONFINDING", conflict=False, valid_defeat=True,
+               representable=True,
+               why="the corpus is sound and no condition holds. There is no "
+                   "answer, but nothing has gone wrong either."),
+
+    # H2 -- an argument IS defeated, and a different one survives. The defeated
+    # rule must remain visible in the outcome. A defeater that silently
+    # vanishes makes this indistinguishable from H1, which is why M10 exists.
+    "H2": dict(status="DECIDED", conflict=False, valid_defeat=True,
+               representable=True, defeat=("A", "B"),
+               why="the constitution clause defeats the statute and itself "
+                   "survives, so a conclusion is reached. The defeated rule "
+                   "is still reported."),
+
+    # H3 -- precedence probe. The corpus is BOTH structurally invalid (empty
+    # validity interval) and unrepresentable. SEMANTICS.md 6.2 makes INVALID
+    # win: the defect is knowable without the representation, so REFUSED would
+    # let a malformed corpus hide behind a capability limit.
+    "H3": dict(status="INVALID", conflict=False, valid_defeat=False,
+               representable=False,
+               why="the empty validity interval is knowable without consulting "
+                   "the representation, so the corpus defect is reported "
+                   "rather than the representational limit."),
+
+    # H4 -- defeats are declared but nothing triggers. Nothing was killed,
+    # because nothing was ever in play. This is what distinguishes H1 from a
+    # DEFEATED outcome: DEFEATED is reserved (6.1) and unreachable anyway.
+    "H4": dict(status="NONFINDING", conflict=False, valid_defeat=True,
+               representable=True,
+               why="declared defeats do not make a rule applicable. With "
+                   "nothing triggered there is nothing to defeat."),
+
+    # H5 -- F-1 as a case. A well-founded 4-chain has a unique extension and
+    # must be DECIDED. An engine that reports SEMANTIC because its loop ran
+    # out of rounds is reporting its own budget as an epistemic claim.
+    "H5": dict(status="DECIDED", conflict=False, valid_defeat=True,
+               representable=True,
+               why="a linear chain is weakly founded; grounded semantics "
+                   "determines its extension. Nothing here is contested."),
+
     "G6": dict(status="CONTESTED", conflict=True, valid_defeat=False,
                representable=True, defeat=None,
                why="two independent contests in one case. Resolving the first "

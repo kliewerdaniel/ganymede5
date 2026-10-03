@@ -61,8 +61,9 @@ def export(cases, path):
 def main():
     from families import CASES as F
     from family_g import G
+    from family_h import H
     out = ROOT / "corpus_export.json"
-    n = export(list(F) + list(G), out)
+    n = export(list(F) + list(G) + list(H), out)
     print("wrote %s (%d cases)" % (out.name, n))
 
     # Sanity: the export must not contain anything label-shaped.

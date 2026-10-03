@@ -28,6 +28,16 @@ SEMANTIC uncertainty, never as a decision.
 from typing import Dict, List, Optional, Set, Tuple
 
 SEMANTIC = "SEMANTIC"
+
+
+class BudgetExhausted(RuntimeError):
+    """Iteration bound reached. An operational failure, NOT an epistemic result.
+
+    Raising rather than returning SEMANTIC is deliberate: a budget that is
+    exhausted has learned nothing about the corpus, and a status code is a
+    claim. See MILESTONE-SIT-V0.3.md finding F-1.
+    """
+    pass
 CORPUS = "CORPUS"
 NONE = "NONE"
 
@@ -80,14 +90,24 @@ def accepted(theta: Set[str],
         if nxt == s:
             return s, NONE, history
         if nxt in history:
-            # Oscillation. The operator has no stable fixpoint on this
-            # framework. Report the indeterminacy; do not pick a side.
+            # Oscillation. The operator demonstrably has no stable fixpoint on
+            # this framework. This IS an epistemic finding about the corpus.
             return s, SEMANTIC, history
         s = nxt
         history.append(s)
 
-    # Bound exhausted without stability: no well-founded fixpoint.
-    return s, SEMANTIC, history
+    # F-1. The budget ran out. This is NOT the same claim as the branch above.
+    # Oscillation is a property of the defeat graph; an exhausted bound is a
+    # property of the caller's loop limit. Reporting SEMANTIC here would let
+    # the engine assert "the formalism is indeterminate" on the authority of
+    # its own arithmetic -- the same class of error as an absent date read as
+    # -inf. Fail loudly instead of returning an epistemic verdict we have not
+    # earned. The default bound is derived from |theta| and provably suffices
+    # for a well-founded framework, so this is a programming error if hit.
+    raise BudgetExhausted(
+        "grounded iteration exceeded %d rounds without stabilising; "
+        "this is an operational limit, not a finding about the framework "
+        "(SEMANTICS.md 4.5)" % max_rounds)
 
 
 def cycle_members(relations: List[Tuple[str, str]]) -> List[List[str]]:
