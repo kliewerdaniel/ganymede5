@@ -176,7 +176,10 @@ def run_defeasible(c: Case) -> dict:
     violations = check_invariants(c)
     if violations:
         trace.append(("invariant_violation", "; ".join(violations)))
-        return out(INVALID, trace, reason=violations[0], represented_reason=False)
+        # SEMANTICS.md 2.1: a defective corpus is INVALID/CORPUS. NONE would
+        # assert both that the semantics decided and that the corpus is sound.
+        return out(INVALID, trace, reason=violations[0], represented_reason=False,
+                   uncertainty=CORPUS)
 
     blocked = [r for r in c.rules if r.requires_construct]
     if blocked:
@@ -209,8 +212,19 @@ def run_defeasible(c: Case) -> dict:
         # checking it with rank would silently convert "later rule wins" into
         # "heavier rule wins", which is a different and wrong claim.
         if d.basis == "explicit_lex_posterior":
-            lo_from = lo.effective_from if lo.effective_from is not None else float("-inf")
-            hi_from = hi.effective_from if hi.effective_from is not None else float("-inf")
+            # SEMANTICS.md 4.6: an absent operand is NOT -inf. The corpus did
+            # not state a temporal position, so it did not assert this
+            # relation, and an unasserted relation is not a warrant. Fail
+            # closed. Substituting -inf here silently converts "later rule
+            # wins" into "rule with a stated date wins", which is a different
+            # and unstated rule.
+            if lo.effective_from is None or hi.effective_from is None:
+                trace.append(("defeat_rejected", d.defeated, d.defeater,
+                              d.basis, "absent effective_from: temporal "
+                                       "position unstated (SEMANTICS.md 4.6)"))
+                continue
+            lo_from = lo.effective_from
+            hi_from = hi.effective_from
             holds = hi_from > lo_from
         elif d.basis == "explicit_constitutional_supremacy":
             holds = AUTH_RANK.get(hi.authority, 0) > AUTH_RANK.get(lo.authority, 0)
@@ -260,7 +274,7 @@ def run_defeasible(c: Case) -> dict:
         trace.append(("self_defeat", str(e)))
         return out(INVALID, trace,
                    reason="a rule defeats itself; the corpus is malformed",
-                   represented_reason=False)
+                   represented_reason=False, uncertainty=CORPUS)
 
     if uncertainty == SEMANTIC:
         cyc = sem.cycle_members([(d.defeater, d.defeated) for d in valid])
@@ -301,12 +315,32 @@ def run_defeasible(c: Case) -> dict:
                        # to why the contest remains open.
                        defeated=sorted(defeated),
                        accepted_ids=sorted(accepted))
-        win = _pick(survivors)
-        trace.append(("result", win.id, win.conclusion, "defeated: " + ",".join(sorted(defeated))))
-        return out(DECIDED, trace, conclusion=win.conclusion,
+        # Only ONE side of the contradiction survived, so there is no contest
+        # (5a.3) -- but there may still be several surviving atoms, which 5a.2
+        # makes a null conclusion. Fall through rather than picking one here:
+        # G3 reaches here with survivors {B,C} asserting A1 and NOT-Y.
+        pass
+
+    # SEMANTICS.md 5a.2: a grounded extension whose survivors assert two or
+    # more distinct atoms yields NO unique proposition-level conclusion. This
+    # is DECIDED, not CONTESTED: the extension is unique and determinate, and
+    # nothing is contested. 5a.4 forbids resolving it by declaration order --
+    # indexing a list to choose what to believe is an undeclared preference.
+    # Implementation B refused to guess here; it was right to.
+    if len(s_concl) > 1:
+        trace.append(("result", None, None,
+                      "distinct surviving conclusions: " + ",".join(sorted(s_concl))))
+        for _r in sorted(survivors, key=lambda x: x.id):
+            trace.append(("surviving_conclusion", _r.id, _r.conclusion,
+                          _r.source))
+        return out(DECIDED, trace, conclusion=None,
+                   reason="grounded extension is determinate but yields no "
+                          "unique proposition-level conclusion",
                    represented_reason=bool(defeated),
                    defeated=sorted(defeated),
                    accepted_ids=sorted(accepted))
+        # Report EVERY surviving atom to the reader (5a.4): showing the full set
+        # does not require preferring one member of it.
 
     if not survivors:
         return out(DEFEATED, trace, reason="every triggered rule was defeated",

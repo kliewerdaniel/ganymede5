@@ -207,7 +207,14 @@ MANIFEST = {
                    "two surviving branches assert contradictory conclusions "
                    "with nothing to choose between them. This entry is left "
                    "as a record of the error rather than deleted"),
-    "G3": dict(status="DECIDED", conflict=True, valid_defeat=True,
+    # REVISED v0.2. The grounded set is {B,C} and it is unique and
+    # determinate, but B asserts A1 and C asserts NOT-Y: two distinct atoms.
+    # SEMANTICS.md 5a.2 makes that DECIDED with conclusion=null. I originally
+    # expected DECIDED with conclusion "A1", which required picking one atom
+    # by declaration order -- 5a.4 forbids exactly that. Implementation B
+    # refused to guess and was more spec-faithful than this manifest.
+    "G3": dict(status="DECIDED", conclusion=None, conflict=True,
+               valid_defeat=True,
                representable=True, defeat=("A", "B"),
                why="the middle of a chain is disabled: C's defeat of B is off. "
                    "B therefore survives and its defeat of A still holds, so "

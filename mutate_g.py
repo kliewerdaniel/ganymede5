@@ -94,6 +94,18 @@ MUTANTS = [
      "                       # to why the contest remains open.\n"
      "                       defeated = {}"),
 
+    ("M12", "corpus.py",
+     "pick one atom by declaration order (violates 5a.4)",
+     "    if len(s_concl) > 1:",
+     "    if False:"),
+    ("M13", "corpus.py",
+     "report a defective corpus as INVALID/NONE (violates 2.1)",
+     "                   represented_reason=False, uncertainty=CORPUS)",
+     "                   represented_reason=False, uncertainty=NONE)"),
+    ("M14", "corpus.py",
+     "treat an absent date as -inf (violates 4.6)",
+     "            if lo.effective_from is None or hi.effective_from is None:",
+     "            if False:"),
     ("M11", "corpus.py",
      "tiebreak survivors on numeric rank",
      "    return sorted(survivors, key=lambda r: r.id)[0]",

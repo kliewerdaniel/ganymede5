@@ -359,3 +359,81 @@ class RegimeContrast(unittest.TestCase):
                          "only the self-defeating corpus may be INVALID")
         for cid in ("G1", "G2", "G2b", "G2c", "G3", "G4", "G5", "G6", "G7"):
             self.assertNotEqual(run_defeasible(BY[cid])["status"], INVALID, cid)
+
+
+    """Rules the SIT v0.1 disagreements forced into writing (SEMANTICS.md v0.2).
+
+    Each test corresponds to a clause that did not exist when the two
+    independent implementations disagreed. Collected as methods because a
+    module-level function is invisible to unittest.
+    """
+
+    def run_g(self, cid):
+        return run_defeasible(BY[cid])
+
+    def test_invalid_is_corpus_never_none(self):
+        """SEMANTICS.md 2.1. A defective corpus is INVALID/CORPUS.
+
+        NONE would assert both that the semantics decided and that the corpus
+        is sound, which would let a malformed corpus read as a clean query
+        that simply found nothing.
+        """
+        r = self.run_g("G8")
+        self.assertEqual(r["status"], "INVALID")
+        self.assertEqual(
+            r["uncertainty"], "CORPUS",
+            "2.1: a malformed corpus is not a clean NONFINDING")
+
+    def test_multi_atom_grounded_set_has_no_unique_conclusion(self):
+        """SEMANTICS.md 5a.2 / 5a.4.
+
+        G3 grounds to {B,C}, asserting A1 and NOT-Y. Reporting A1 required
+        indexing declaration order -- a substantive preference in disguise.
+        Status stays DECIDED because nothing is contested.
+        """
+        r = self.run_g("G3")
+        self.assertEqual(r["status"], "DECIDED")
+        self.assertIsNone(r["conclusion"], "5a.4: order is not a selection rule")
+        self.assertEqual(sorted(r["accepted"]), ["B", "C"])
+        shown = {t[2] for t in r["trace"] if t[0] == "surviving_conclusion"}
+        self.assertEqual(shown, {"A1", "NOT-Y"},
+                         "every surviving atom stays visible to the reader")
+
+    def test_single_atom_grounded_set_still_reports_it(self):
+        """5a.1 must survive 5a.2 -- a null conclusion is not the default."""
+        self.assertEqual(self.run_g("G1")["conclusion"], "NOT-Y")
+
+    def test_absent_date_does_not_satisfy_a_temporal_basis(self):
+        """SEMANTICS.md 4.6. An absent effective_from is NOT -inf.
+
+        Built here rather than added to the corpus, because the SIT v0.2
+        instruction was to leave the corpus untouched. Before this test the
+        rule was written in the spec and implemented in code but enforced by
+        nothing -- mutant M14 survived.
+        """
+        from corpus import Case, Rule, Defeat
+        r = Rule("L", "ch_01", "LEGISLATURE", "ch_01 SS2", "on_state",
+                 "Y", effective_from=1900)          # dated
+        d = Rule("D", "decree_01", "EXECUTIVE", "dec_01 SS1", "on_state",
+                 "NOT-Y")                        # NO date at all
+        c = Case(cid="TMP-DATE", family="tmp", note="4.6 probe",
+                 state={"on_state"},
+                 rules=[r, d],
+                 defeats=[Defeat("L", "D", "explicit_lex_posterior",
+                                 "dec_01 SS1")])
+        out = run_defeasible(c)
+        # D cannot defeat L on a temporal basis it cannot state, so L survives
+        # and D's claim does not become the outcome.
+        self.assertNotEqual(
+            out["conclusion"], "NOT-Y",
+            "4.6: an absent operand is unsatisfied, not -inf")
+        rejected = [t for t in out["trace"]
+                    if t[0] == "defeat_rejected" and "4.6" in str(t)]
+        self.assertTrue(
+            rejected,
+            "the rejection must be recorded with its reason (4.6 fail-closed)")
+
+    def test_manifest_agrees_with_revised_g3(self):
+        """The independent manifest must encode the v0.2 rule, not the old
+        declaration-order answer."""
+        self.assertIsNone(MANIFEST["G3"].get("conclusion"))
