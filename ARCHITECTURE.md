@@ -178,6 +178,24 @@ Current honest state, preserved rather than smoothed:
   the others can fail. **This is not completeness.** It is a sample of modes
   found, not an enumeration of all modes.
 
+## The red line
+
+> **Do not let the system manufacture the corpus against which it will later
+> claim to have succeeded.**
+
+Everything above exists to hold this line. It is the project's most important
+architectural rule, and it was not designed in — it was found, repeatedly, after
+each layer turned out to be capable of quietly widening what counted as
+evidence:
+
+- the implementation enforced five invariants the specification never mentioned
+- the harness compared 36 of 41 cases and reported success
+- the specification could have been edited to accommodate either one
+
+An independent implementation, a neutral corpus, and a digest-pinned
+specification are three separate places where the system is stopped from
+grading its own homework.
+
 ## The two invariants
 
 These follow from the structure above and are stated separately because they are
