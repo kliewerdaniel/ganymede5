@@ -33,10 +33,79 @@ import sys
 ROOT = pathlib.Path(__file__).parent
 sys.path.insert(0, str(ROOT))
 
-from corpus import run_defeasible, run_refusal  # noqa: E402
+from corpus import run_defeasible  # noqa: E402
 from families import CASES as F  # noqa: E402
 from family_g import G as FG  # noqa: E402
 from family_h import H as FH  # noqa: E402
+
+
+# --------------------------------------------------------------------------
+# MEASUREMENT FAILURE, made fatal.
+#
+# This harness once reported "agree on every case where the spec is decisive"
+# while comparing 36 of the corpus's 41 cases. It dropped Family H -- the five
+# adversarial cases that exist specifically to test the newest specification
+# text. A harness that silently excludes cases cannot detect disagreement in
+# them, and it will report success while doing so.
+#
+# The omission was not random, which is what makes it dangerous: it excluded
+# precisely the cases most likely to disagree. Coverage that is inferred from
+# a successful run is not coverage.
+#
+# So the case-id invariant is enforced, not documented:
+#
+#     corpus_export_ids == A_ids == B_ids == compared_ids
+#
+# EXPECTED ids are read from corpus_export.json -- the neutral interchange file,
+# which is written by the exporter and read by every independent implementation.
+# They are deliberately NOT derived from A's case list. If the expected set
+# came from A, then any case A failed to register would be invisible to the
+# check, and the instrument would inherit the very blind spot it exists to
+# detect.
+# --------------------------------------------------------------------------
+
+
+def expected_ids():
+    """The corpus's own case ids, from the neutral export."""
+    export = ROOT / "corpus_export.json"
+    if not export.exists():
+        sys.exit("FATAL: corpus_export.json is missing. The expected case set "
+                 "must come from the neutral corpus, never from implementation A.")
+    data = json.loads(export.read_text())
+    cases = data["cases"] if isinstance(data, dict) else data
+    ids = [c.get("id") or c.get("cid") for c in cases]
+    dupes = {i for i in ids if ids.count(i) > 1}
+    if dupes:
+        sys.exit("FATAL: duplicate case ids in corpus_export.json: %s"
+                 % ", ".join(sorted(dupes)))
+    return ids
+
+
+def coverage_report(expected, a_ids, b_ids, compared):
+    """Fatal unless all four sets are identical. Returns nothing on success."""
+    problems = []
+    for label, ids in (("A", a_ids), ("B", b_ids), ("compared", compared)):
+        short = sorted(set(expected) - set(ids))
+        extra = sorted(set(ids) - set(expected))
+        if short:
+            problems.append("  %-8s is MISSING %d case(s): %s"
+                            % (label, len(short), ", ".join(short)))
+        if extra:
+            problems.append("  %-8s has %d case(s) NOT IN THE CORPUS: %s"
+                            % (label, len(extra), ", ".join(extra)))
+    if problems:
+        print("=" * 72)
+        print("FATAL -- MEASUREMENT FAILURE. Refusing to report agreement.")
+        print("=" * 72)
+        print("\n".join(problems))
+        print("\nThe case sets are not identical. Any agreement figure computed")
+        print("over a subset is not evidence about the whole corpus: a harness")
+        print("that drops cases cannot find disagreement in the ones it dropped.")
+        print("\nNothing below is reported, because nothing below would mean anything.")
+        return False
+    print("coverage: %d/%d cases -- corpus, A, B, and compared set are identical"
+          % (len(expected), len(expected)))
+    return True
 
 
 def a_answers():
@@ -91,13 +160,21 @@ def main():
         return 2
     b = json.loads(bpath.read_text())
     a = a_answers()
+
+    exp = expected_ids()
+    b_ids = [x.get("id") or x.get("cid") for x in b]
+    if not coverage_report(exp, sorted(a), sorted(x for x in b_ids if x),
+                           sorted(set(exp) & set(a) & set(x for x in b_ids if x))):
+        return 3
+
     agree, violations, spec, reporting, missing = compare(a, b)
 
     n = len(a)
     print("=" * 72)
     print("IMPLEMENTATION A vs INDEPENDENT IMPLEMENTATION B")
     print("=" * 72)
-    print("cases compared: %d" % n)
+    print("cases in corpus: %d" % len(exp))
+    print("cases compared:   %d" % n)
     print()
     print("  AGREE            %2d" % len(agree))
     print("  DISAGREE         %2d   <- inspect each" % len(spec))
@@ -119,7 +196,8 @@ def main():
 
     print("\n" + "-" * 72)
     if not spec and not missing:
-        print("VERDICT: A and B agree on every case where the spec is decisive.")
+        print("VERDICT: A and B agree on all %d corpus cases. This is agreement," % n)
+        print("         over the whole corpus, between two implementations.")
         if reporting:
             print("         Differences are confined to `defeated`, which "
                   "SEMANTICS.md")
