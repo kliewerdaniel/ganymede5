@@ -178,6 +178,54 @@ Current honest state, preserved rather than smoothed:
   the others can fail. **This is not completeness.** It is a sample of modes
   found, not an enumeration of all modes.
 
+## The two invariants
+
+These follow from the structure above and are stated separately because they are
+the two rules that do the most work.
+
+### A change in what the system means must be observable as a change in the specification
+
+Not merely as a change in the program that implements it.
+
+`SPEC-FREEZE.json` makes a semantic revision an *observable event*: a version
+bump, a recorded rationale, and named evidence. Legitimate revisions remain
+available — v0.2 and v0.3 were both warranted, and prohibiting them would have
+been its own dishonesty. What is prohibited is a semantic change masquerading
+as an ordinary implementation fix. A reader must always be able to tell which
+kind of edit occurred.
+
+### Neither implementation may define the population against which its own correctness is measured
+
+The expected case set is read from `corpus_export.json`, which no implementation
+writes and any independent implementation reads. This is why the invariant
+cannot be weakened by accident: derive the population from A and A's blind spot
+becomes the standard, invisibly.
+
+Together these two prevent a large class of recursive self-validation failure:
+the system cannot quietly rewrite either *what it means* or *what counts as
+evidence for that meaning*.
+
+## The open research question
+
+Preserved as a question. **Not** an implementation task, and not scheduled.
+
+> Given an independently specified governance corpus, can Ganymede decompose
+> institutional tasks while preserving the distinction between authorization,
+> delegation, execution, evaluation, and normative judgment, without allowing
+> the evaluator to rewrite the criteria by which its own decomposition is
+> judged?
+
+The self-reference in that question is deliberate and is the reason it is not
+being built yet. Every mechanism above was derived by asking *what would let this
+system report success falsely*; the governance corpus asks the same question one
+level up, where the answer would be a decomposition that silently substitutes
+normative judgment for the distinctions it is supposed to preserve.
+
+It stays a question until an independent party can specify that corpus — which
+is the same epistemic requirement already applied to `SEMANTICS.md`. Authoring
+it and then evaluating it here would make the author the evaluator, which is the
+structure the whole project exists to separate out.
+
 ## The gate
 
 No governance-decomposition corpus until the observability layer demonstrates

@@ -126,6 +126,16 @@ spec freeze v0.3 verified; an unrecorded spec edit is fatal
 instances, including the cross-layer case where a defect in one layer is
 invisible to the layer beneath it because the layer above reports success.
 
+## Frozen scope
+
+This milestone changes measurement only. No semantics, no corpus families, no
+new engine. `SEMANTICS.md`, `CORPUS_FORMAT.md`, `corpus_export.json`, and all
+four implementations are byte-identical to their v0.3 state, verified by digest
+in `SPEC-FREEZE.json`.
+
+The next step is preserved in `ARCHITECTURE.md` as a research question and is
+deliberately **not** an implementation task.
+
 ## What is NOT claimed
 
 - **Not detector completeness.** Seven checks fire. `adversarial_measure.py`
