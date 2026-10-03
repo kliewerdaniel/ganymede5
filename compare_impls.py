@@ -43,10 +43,6 @@ def a_answers():
     out = {}
     for c in list(F) + list(G):
         r = run_defeasible(c)
-        # `accepted` is not surfaced by A's return value, so recover it from
-        # the effective-defeat trace. This is A's weakness, not B's: A exposes
-        # acceptance only indirectly. Recorded as a finding.
-        acc = None
         out[c.cid] = {
             "id": c.cid,
             "status": r["status"],
@@ -54,6 +50,9 @@ def a_answers():
             "uncertainty": r["uncertainty"],
             "defeated": sorted(r["defeated"]),
             "represented_reason": r["represented_reason"],
+            # SEMANTICS.md 4 fixes the argument set, so it is a reported output
+            # and one of the four fields the format says must match.
+            "accepted": sorted(r["accepted"]),
         }
     return out
 
@@ -67,8 +66,10 @@ def compare(a, b):
         if bv is None:
             missing.append(cid)
             continue
-        core_a = (av["status"], av["conclusion"], av["uncertainty"])
-        core_b = (bv.get("status"), bv.get("conclusion"), bv.get("uncertainty"))
+        core_a = (av["status"], av["conclusion"], av["uncertainty"],
+                  tuple(av["accepted"]))
+        core_b = (bv.get("status"), bv.get("conclusion"), bv.get("uncertainty"),
+                  tuple(sorted(bv.get("accepted") or [])))
         if core_a == core_b:
             if sorted(av["defeated"]) == sorted(bv.get("defeated") or []):
                 agree.append(cid)

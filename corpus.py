@@ -272,6 +272,10 @@ def run_defeasible(c: Case) -> dict:
                           "cyclic defeat by default",
                    represented_reason=False, uncertainty=SEMANTIC)
 
+    # The grounded argument set is an OUTPUT, not an internal. SEMANTICS.md
+    # section 4 fixes it, and CORPUS_FORMAT.md requires it, so it must be
+    # reportable. It was previously recoverable only by reading the trace,
+    # which made the A/B comparison structurally weaker than the spec requires.
     survivors = [r for r in live.values() if r.id in accepted]
     # A validated defeat that the fixpoint did not apply is not discarded
     # silently: it is the trace record that shows the reversal.
@@ -295,16 +299,19 @@ def run_defeasible(c: Case) -> dict:
                        # a correct case look like nothing had been decided --
                        # the record of what WAS defeated is part of the answer
                        # to why the contest remains open.
-                       defeated=sorted(defeated))
+                       defeated=sorted(defeated),
+                       accepted_ids=sorted(accepted))
         win = _pick(survivors)
         trace.append(("result", win.id, win.conclusion, "defeated: " + ",".join(sorted(defeated))))
         return out(DECIDED, trace, conclusion=win.conclusion,
                    represented_reason=bool(defeated),
-                   defeated=sorted(defeated))
+                   defeated=sorted(defeated),
+                   accepted_ids=sorted(accepted))
 
     if not survivors:
         return out(DEFEATED, trace, reason="every triggered rule was defeated",
-                   represented_reason=True, defeated=sorted(defeated))
+                   represented_reason=True, defeated=sorted(defeated),
+                   accepted_ids=sorted(accepted))
     win = _pick(survivors)
     # Name the representative even when nothing was contested. On an
     # uncontested case the choice is immaterial to the outcome, which is
@@ -313,7 +320,8 @@ def run_defeasible(c: Case) -> dict:
     trace.append(("result", win.id, win.conclusion,
                   "defeated: " + ",".join(sorted(defeated))))
     return out(DECIDED, trace, conclusion=win.conclusion,
-               represented_reason=bool(defeated), defeated=sorted(defeated))
+               represented_reason=bool(defeated), defeated=sorted(defeated),
+               accepted_ids=sorted(accepted))
 
 
 def _pick(survivors):
@@ -338,10 +346,12 @@ def _pick(survivors):
 
 
 def out(status, trace, reason=None, conclusion=None, audit=False,
-        represented_reason=False, defeated=None, uncertainty=None):
+        represented_reason=False, defeated=None, uncertainty=None,
+        accepted_ids=None):
     return {"status": status, "trace": trace, "reason": reason, "conclusion": conclusion,
             "audit": audit, "represented_reason": represented_reason,
             "defeated": defeated or [],
             # IMPLEMENTATION uncertainty is not emittable here by design. Only
             # the independent grader may assert it.
-            "uncertainty": uncertainty or (CORPUS if status == CONTESTED else NONE)}
+            "uncertainty": uncertainty or (CORPUS if status == CONTESTED else NONE),
+            "accepted": accepted_ids or []}
