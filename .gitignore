@@ -1,2 +1,6 @@
 __pycache__/
 *.pyc
+
+# Rust build artifacts -- rebuildable, and they embed absolute local paths
+# which would leak into published history.
+target/

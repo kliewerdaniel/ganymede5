@@ -711,10 +711,10 @@ fn esc(s: &str) -> String {
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let inp = args.get(1).cloned().unwrap_or_else(|| {
-        "/Users/danielkliewer/Projects/ganymede5-proto/corpus_export.json".to_string()
+        concat!(env!("CARGO_MANIFEST_DIR"), "/../corpus_export.json").to_string()
     });
     let outp = args.get(2).cloned().unwrap_or_else(|| {
-        "/Users/danielkliewer/Projects/ganymede5-proto/impl_b.json".to_string()
+        concat!(env!("CARGO_MANIFEST_DIR"), "/../impl_b.json").to_string()
     });
     let txt = fs::read_to_string(&inp).expect("cannot read corpus");
     let mut p = P { b: txt.as_bytes(), i: 0 };
