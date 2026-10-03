@@ -289,7 +289,35 @@ def negative_control_detector_can_fail():
                   "detector is testing the invariant and not something else")
 
 
+def detect_specification_drift():
+    """The specification must not move to make the measurement pass.
+
+    A rule nobody can fail is not a rule. SEMANTICS.md once declared a governing
+    constraint while the implementation enforced five invariants the document
+    never mentioned -- so documented intent is not enforcement, and the
+    no-self-modification rule needs a mechanical form.
+
+    Seeds an edit to SEMANTICS.md with no recorded decision and requires the
+    freeze check to catch it.
+    """
+    spec = ROOT / "SEMANTICS.md"
+    original = spec.read_text()
+    spec.write_text(original + "\n<!-- unrecorded edit -->\n")
+    try:
+        code, out = sh("spec_freeze.py")
+    finally:
+        spec.write_text(original)
+    if code == 0:
+        return False, ("specification drift went undetected -- the specification "
+                       "can be edited to satisfy the apparatus")
+    if "SPECIFICATION DRIFT" not in out:
+        return False, "freeze check failed but did not identify specification drift"
+    return True, ("an unrecorded edit to the specification is fatal; it cannot be "
+                  "made to pass without a version bump and a recorded rationale")
+
+
 DETECTORS = [
+    ("specification drift",     detect_specification_drift),
     ("detector can fail",         negative_control_detector_can_fail),
     ("omitted case",              detect_omitted_case),
     ("uncollected test",          detect_uncollected_test),

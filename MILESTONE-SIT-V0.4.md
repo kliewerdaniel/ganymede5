@@ -90,13 +90,34 @@ nothing, which is TEST FAILURE wearing a different hat.
 
 **6/6 detectors fired.**
 
+## Change 4 — the no-self-modification rule, made mechanical
+
+`SPEC-FREEZE.json` pins a digest of every normative file; `spec_freeze.py`
+fails on any unrecorded change; `adversarial_measure.py` seeds a silent
+spec edit and requires the freeze check to catch it (detector 6).
+
+Written because documented intent is not enforcement. `SEMANTICS.md` once
+declared a governing constraint while the implementation enforced five
+invariants the document never mentioned. A rule nobody can fail is not a rule.
+
+Three decisions are recorded (v0.1 ratified, v0.2 corpus-integrity chapters,
+v0.3 Family H and the budget distinction), each naming the evidence that
+surfaced it. Both v0.2 and v0.3 edits were *warranted*; what is preserved is
+that an edit cannot be mistaken for ordinary bug-fixing.
+
+`ARCHITECTURE.md` records the resulting separation: the neutral corpus owns
+what was supposed to be observed, the implementations own what they derive, and
+the instrument owns whether all of it was actually observed. Three questions,
+three parties.
+
 ## State at freeze
 
 ```
 78 tests, OK
 19/19 mutants killed
 41/41 cases, coverage invariant verified against the neutral corpus
-6/6 adversarial detectors fired, including the negative control
+7/7 adversarial detectors fired, including the negative control
+spec freeze v0.3 verified; an unrecorded spec edit is fatal
 4 implementations, 4 languages, 4 representations, 0 disagreements
 2 fields known not to transfer: 6.3 (vacuous), SEMANTIC (single-case)
 ```
@@ -107,10 +128,9 @@ invisible to the layer beneath it because the layer above reports success.
 
 ## What is NOT claimed
 
-- **Not detector completeness.** Six failure modes are detected. `adversarial_
-  measure.py` says so in its own output. A seventh may exist, and the honest
-  position is that the list is a sample of modes found, not an enumeration of
-  all modes.
+- **Not detector completeness.** Seven checks fire. `adversarial_measure.py`
+  says so in its own output. An eighth may exist, and the honest position is
+  that the list is a sample of modes found, not an enumeration of all modes.
 - **Not that the taxonomy is stable.** The cross-layer category (`VACUOUS`) was
   added only because D's result forced it. It did not exist as a category before
   an implementation made it necessary.

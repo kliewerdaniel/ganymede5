@@ -1,0 +1,63 @@
+{
+  "_comment": [
+    "The specification freeze. This file is the mechanical form of one rule:",
+    "DO NOT MODIFY THE SPECIFICATION TO MAKE THE MEASUREMENT APPARATUS PASS.",
+    "",
+    "An implementation or a measurement system disagreeing with SEMANTICS.md is",
+    "evidence to investigate, never grounds to edit the specification. If the",
+    "specification genuinely needs to change, that change must be recorded here",
+    "as an explicit semantic decision, with a rationale, and it must carry a",
+    "version bump. Silent drift is what converts the loop",
+    "",
+    "    spec -> impl -> measurement -> spec modification (repeat)",
+    "",
+    "into a closed optimisation loop in which the system converges by optimising",
+    "itself against its own evaluator.",
+    "",
+    "`spec_freeze.py` verifies these digests. If any pinned file changes without",
+    "a recorded decision here, verification FAILS and names the file."
+  ],
+  "spec_version": "0.3",
+  "pinned": {
+    "SEMANTICS.md": "91e25e7fe40a7f95",
+    "CORPUS_FORMAT.md": "ffe240b82a5fe931",
+    "corpus_export.json": "1d47d997ebcc17da"
+  },
+  "decisions": [
+    {
+      "version": "0.1",
+      "rationale": "Initial ratified semantics: grounded consequence, cyclic defeat unresolved, three uncertainties kept distinct.",
+      "evidence": "e5bedde"
+    },
+    {
+      "version": "0.2",
+      "rationale": "Independent implementation B disagreed on five cases for one reason: A enforced five corpus-integrity invariants present in NEITHER public document. This is a SPECIFICATION FAILURE, not an implementation defect. Added chapters 2.1 (INVALID carries CORPUS), 4.6 (absent values have no implied meaning), 5a (proposition-level selection separated from grounding), and defined represented_reason. Evidence: deleg_ade63b6a, MILESTONE-SIT-V0.1.md.",
+      "evidence": "5d9879f"
+    },
+    {
+      "version": "0.3",
+      "rationale": "Family H exposed three gaps, none of which was an implementation defect. (1) F-1: an exhausted iteration budget was reported as SEMANTIC, converting an operational limit into an epistemic claim. (2) DEFEATED was advertised as a capability but no valid corpus case could reach it end to end; it was reserved rather than implemented, because fabricating an invalid fixture to reach it would have been CORPUS FAILURE. (3) REFUSED uncertainty and INVALID-over-REFUSED precedence were unstated. Added 6.1-6.4. Evidence: MILESTONE-SIT-V0.3.md, impl_d.",
+      "evidence": "bf59d14"
+    }
+  ],
+  "rule": [
+    "A specification change requires a new version, a rationale naming the",
+    "semantic ambiguity or defect, and the evidence that surfaced it.",
+    "",
+    "A specification change may NOT be motivated by an implementation or a",
+    "measurement system disagreeing with the specification. Disagreement is",
+    "evidence to investigate the implementation, or evidence that the",
+    "specification is silent, never grounds to edit it silently.",
+    "",
+    "If an independent implementation is CORRECT and disagrees with the",
+    "specification, that is a specification gap and warrants a decision here.",
+    "If it is INCORRECT, that is an implementation defect and warrants nothing",
+    "here. Distinguishing the two requires reading the specification, not",
+    "running a script.",
+    "",
+    "The neutral corpus defines what observations were supposed to exist. The",
+    "implementations define what they derive. The comparator establishes whether",
+    "all of them were observed and compared. These are three questions and they",
+    "belong to three different parties; conflating them is MEASUREMENT FAILURE."
+  ]
+}
