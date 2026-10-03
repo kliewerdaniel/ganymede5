@@ -1,0 +1,362 @@
+[
+  {
+    "id": "A1",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "defeated": ["B"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["A"],
+    "trace": ["active A>B [explicit_authority_precedence]", "S(0) = {A, B}", "S(1) = {A}", "DECIDED: grounded set {A}"]
+  },
+  {
+    "id": "A2",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "defeated": [],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["A"],
+    "trace": ["S(0) = {A}", "DECIDED: grounded set {A}"]
+  },
+  {
+    "id": "A3",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "defeated": ["B"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["A"],
+    "trace": ["active A>B [explicit_rank_precedence]", "S(0) = {A, B}", "S(1) = {A}", "DECIDED: grounded set {A}"]
+  },
+  {
+    "id": "B1",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "defeated": ["B"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["A"],
+    "trace": ["active A>B [explicit_authority_precedence]", "S(0) = {A, B}", "S(1) = {A}", "DECIDED: grounded set {A}"]
+  },
+  {
+    "id": "B2",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "defeated": [],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["B"],
+    "trace": ["reject B>A: endpoint not triggered, so the pair is not in Theta", "S(0) = {B}", "DECIDED: grounded set {B}"]
+  },
+  {
+    "id": "B3",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "defeated": ["A"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["B"],
+    "trace": ["active B>A [explicit_constitutional_supremacy]", "S(0) = {A, B}", "S(1) = {B}", "DECIDED: grounded set {B}"]
+  },
+  {
+    "id": "B4",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "defeated": [],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["A"],
+    "trace": ["reject B>A: endpoint not triggered, so the pair is not in Theta", "S(0) = {A}", "DECIDED: grounded set {A}"]
+  },
+  {
+    "id": "B5",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "defeated": ["A"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["B"],
+    "trace": ["active B>A [explicit_lex_posterior]", "S(0) = {A, B}", "S(1) = {B}", "DECIDED: grounded set {B}"]
+  },
+  {
+    "id": "C1",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "C2",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["reject A>B: relation disabled", "S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "C3",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["reject B>A: basis `explicit_authority_precedence` does not hold", "S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "C4",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "defeated": ["A"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["B"],
+    "trace": ["active B>A [explicit_rank_precedence]", "S(0) = {A, B}", "S(1) = {B}", "DECIDED: grounded set {B}"]
+  },
+  {
+    "id": "D1",
+    "status": "REFUSED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "NONE",
+    "represented_reason": false,
+    "accepted": [],
+    "trace": ["REFUSED: rule B requires construct ROUND"]
+  },
+  {
+    "id": "D2",
+    "status": "REFUSED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "NONE",
+    "represented_reason": false,
+    "accepted": [],
+    "trace": ["REFUSED: rule A requires construct DISCRETIONARY_BALANCE"]
+  },
+  {
+    "id": "E1",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["reject B>A: basis `explicit_authority_precedence` does not hold", "S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "E2",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "defeated": ["A"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["B"],
+    "trace": ["active B>A [explicit_lex_posterior]", "S(0) = {A, B}", "S(1) = {B}", "DECIDED: grounded set {B}"]
+  },
+  {
+    "id": "E3",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "defeated": [],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["B"],
+    "trace": ["S(0) = {B}", "DECIDED: grounded set {B}"]
+  },
+  {
+    "id": "E4",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["reject GHOST>A: endpoint(s) not among the rules of this case", "S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "E5",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "F1",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "F2",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "F3",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "F4",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (NOT-Y vs Y)"]
+  },
+  {
+    "id": "F5",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "F6",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B"],
+    "trace": ["S(0) = {A, B}", "CONTESTED/CORPUS: the grounded set {A, B} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "F7",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "defeated": ["B"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["A"],
+    "trace": ["active A>B [explicit_authority_precedence]", "S(0) = {A, B}", "S(1) = {A}", "DECIDED: grounded set {A}"]
+  },
+  {
+    "id": "G1",
+    "status": "DECIDED",
+    "conclusion": "NOT-Y",
+    "defeated": ["A", "C"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["B", "D"],
+    "trace": ["active B>A [explicit_chain_succession]", "active C>B [explicit_chain_succession]", "active D>C [explicit_chain_succession]", "S(0) = {A, B, C, D}", "S(1) = {D}", "S(2) = {A, B, D}", "S(3) = {B, D}", "DECIDED: grounded set {B, D}"]
+  },
+  {
+    "id": "G2",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": ["C", "E"],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["B", "D", "F"],
+    "trace": ["active C>B [explicit_chain_succession]", "active D>C [explicit_chain_succession]", "active F>E [explicit_chain_succession]", "S(0) = {B, C, D, E, F}", "S(1) = {D, F}", "S(2) = {B, D, F}", "CONTESTED/CORPUS: the grounded set {B, D, F} carries contradictory conclusions (Y vs NOT-Y vs E1)"]
+  },
+  {
+    "id": "G3",
+    "status": "DECIDED",
+    "conclusion": null,
+    "defeated": ["A"],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["B", "C"],
+    "trace": ["active B>A [explicit_chain_succession]", "reject C>B: relation disabled", "S(0) = {A, B, C}", "S(1) = {B, C}", "DECIDED: grounded set {B, C}"]
+  },
+  {
+    "id": "G4",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "SEMANTIC",
+    "represented_reason": false,
+    "accepted": [],
+    "trace": ["active C>B [explicit_chain_succession]", "active B>C [explicit_chain_succession]", "cycle in the attack relation among {B, C}; no well-founded argument set", "CONTESTED/SEMANTIC: cyclic defeat between distinct rules (SEMANTICS.md 4.2)"]
+  },
+  {
+    "id": "G5",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": ["A", "C"],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["B", "D"],
+    "trace": ["active B>A [explicit_chain_succession]", "active C>B [explicit_chain_succession]", "active D>C [explicit_exception]", "S(0) = {A, B, C, D}", "S(1) = {D}", "S(2) = {A, B, D}", "S(3) = {B, D}", "CONTESTED/CORPUS: the grounded set {B, D} carries contradictory conclusions (NOT-Y vs Y)"]
+  },
+  {
+    "id": "G6",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["A", "B", "C", "D"],
+    "trace": ["reject C>A: basis `explicit_authority_precedence` does not hold", "S(0) = {A, B, C, D}", "CONTESTED/CORPUS: the grounded set {A, B, C, D} carries contradictory conclusions (Y vs NOT-Y vs Q1 vs NOT-Q)"]
+  },
+  {
+    "id": "G2b",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": ["C", "E"],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["B", "D", "F"],
+    "trace": ["active C>B [explicit_chain_succession]", "active D>C [explicit_chain_succession]", "active F>E [explicit_chain_succession]", "S(0) = {B, C, D, E, F}", "S(1) = {D, F}", "S(2) = {B, D, F}", "CONTESTED/CORPUS: the grounded set {B, D, F} carries contradictory conclusions (Y vs NOT-Y vs E1)"]
+  },
+  {
+    "id": "G2c",
+    "status": "CONTESTED",
+    "conclusion": null,
+    "defeated": ["C"],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": ["B", "D", "E"],
+    "trace": ["active C>B [explicit_chain_succession]", "active D>C [explicit_chain_succession]", "active C>E [explicit_chain_succession]", "S(0) = {B, C, D, E}", "S(1) = {D}", "S(2) = {B, D, E}", "CONTESTED/CORPUS: the grounded set {B, D, E} carries contradictory conclusions (Y vs NOT-Y)"]
+  },
+  {
+    "id": "G7",
+    "status": "DECIDED",
+    "conclusion": "Y",
+    "defeated": [],
+    "uncertainty": "NONE",
+    "represented_reason": true,
+    "accepted": ["M", "N"],
+    "trace": ["S(0) = {M, N}", "DECIDED: grounded set {M, N}"]
+  },
+  {
+    "id": "G8",
+    "status": "INVALID",
+    "conclusion": null,
+    "defeated": [],
+    "uncertainty": "CORPUS",
+    "represented_reason": false,
+    "accepted": [],
+    "trace": ["active A>A [explicit_chain_succession]", "INVALID: rule `A` defeats itself; the corpus asserts something incoherent"]
+  }
+]

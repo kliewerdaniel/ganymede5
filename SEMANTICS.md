@@ -27,8 +27,22 @@ carried as a separate `uncertainty` field, orthogonal to `status`.
 | kind | meaning | who reports it |
 |---|---|---|
 | `SEMANTIC` | the formalism does not determine a unique answer | engine |
-| `CORPUS` | the corpus lacks a relation needed to settle the question | engine |
+| `CORPUS` | the corpus is the obstacle: it lacks a relation needed to settle the question, **or it is itself defective** | engine |
 | `IMPLEMENTATION` | the semantics determine the answer; the engine got it wrong | **grader only** |
+
+The engine must additionally report `NONE` when no unresolved question remains
+**and** the corpus is well-formed. These are the only three engine-emittable
+values.
+
+> **2.1 Uncertainty for a defective corpus.** A corpus that violates a validity
+> invariant (§5) is reported `INVALID` with `uncertainty=CORPUS`. It is *not*
+> `NONE`. `NONE` asserts two things: that the semantics determined an answer,
+> and that nothing is wrong with the corpus. A malformed corpus satisfies
+> neither, and `NONE` would let a broken corpus be read as a clean query that
+> simply found nothing. `INVALID/CORPUS` is what distinguishes "your corpus is
+> broken" from `NONFINDING/NONE`, which means "your corpus is fine; nothing
+> triggered". Collapsing those two is the exact error this section exists to
+> prevent.
 
 `IMPLEMENTATION` is deliberately **not emittable by the engine**. A system that
 can diagnose its own implementation errors is not being audited. Only the
@@ -116,7 +130,8 @@ A rule defeating itself is a defect in the **corpus**, not an unresolved
 question. The corpus asserts something incoherent, and no amount of
 argumentation licenses an outcome on it. This is deliberately a *different state
 from* `CONTESTED`: "your norm is malformed" and "your norm is genuinely open"
-must never be reported the same way. Same for cycles *within a single
+must never be reported the same way. Reported `uncertainty=CORPUS` per §2.1.
+Same for cycles *within a single
 self-referential rule set* — those are `INVALID`; cycles *between distinct
 rules* are `CONTESTED` per 4.2.
 
@@ -126,7 +141,29 @@ If iteration exceeds the convergence bound the operator is treated as having no
 stable fixpoint. The bound is `2·|Θ| + 2`, which is ample for finite acyclic
 frameworks and terminates the cyclic oscillation in 4.2. Fail closed.
 
-### 4.6 What is never a tiebreak
+### 4.6 Absent values have no implied meaning
+
+Every quantity that can alter a semantic ordering has **explicit ordering
+semantics for its own absence**. `None`, `null`, missing, and empty are not
+values that a host language may silently order. This rule exists because two
+independent implementations chose two different readings and reached two
+different verdicts on the same case.
+
+- **Temporal (`effective_from`, `effective_to`).** A basis that requires a
+  comparison is **unsatisfied when an operand is absent**. Absent is not −∞,
+  not "always", not "the default". If the corpus does not state the temporal
+  position a `explicit_lex_posterior` relation needs, the corpus has not
+  asserted that relation, and an unasserted relation is not a warrant.
+- **Precedence (`authority`, `rank`).** Absent authority is unsatisfied for any
+  basis requiring authority ordering. Absent `rank` is unsatisfied for
+  `explicit_rank_precedence`.
+- **Dates gate triggers separately.** An absent date does not make a rule
+  in-force or out-of-force; triggering is governed by the corpus's own state and
+  is a separate question from precedence.
+
+Fail closed, uniformly: **an unverifiable basis is an unsatisfied basis.**
+
+### 4.7 What is never a tiebreak
 
 `rank`, `specificity`, `recency`, `confidence`, `order_index`,
 `text_similarity`, `length`, and corpus ordering are **not** consulted to
@@ -134,7 +171,91 @@ resolve a contest under any circumstances. `rank` is read only where the corpus
 explicitly states rank precedence as the *basis*. An AST test enforces that the
 defeat module never reads these fields.
 
-## 5. Status vocabulary
+### 4.8 What counts as a represented reason
+
+`represented_reason` is a claim about provenance, so it is specified, not
+inferred. It is `true` **only if** at least one enabled, basis-satisfying
+defeat relation was applied, **and** every rule excluded from the grounded set
+was excluded by such a relation. Specifically:
+
+- The warrant must **originate in the corpus** as a declared relation. It is
+  never an explanation the engine generated about why an outcome seemed right.
+- An **authoring-time assertion** that a rule is justified does not qualify; it
+  is a claim, not a relation.
+- A relation whose basis is unsatisfied, or whose truth the implementation
+  *inferred* where the corpus was silent, does not qualify.
+- `false` is a substantive finding, not a default. It means the outcome is
+  decisive **without** a represented warrant, which is the single most important
+  thing this system measures.
+
+An implementation that cannot distinguish "the corpus stated the reason" from
+"the engine explained the reason" must report `false`.
+
+## 5. Corpus validity: what makes a corpus defective
+
+Defectiveness is **structural**, checked before any semantic reasoning, and is
+distinct from indeterminacy. An indeterminate corpus is well-formed and
+genuinely open; a defective corpus is not a corpus that argumentation can be run
+on at all. Both are reported, neither is a contest, and neither may be reported
+as a decision.
+
+A corpus is **defective** (`INVALID`) if any of the following holds. Each is a
+property of the corpus as written, decidable without argumentation:
+
+| id | condition | why it is a defect |
+|---|---|---|
+| `F1_GENERALITY` | a defeat relation names a rule that does not exist | a relation to nothing cannot warrant anything |
+| `F2_PROMULGATION` | a rule is unpromulgated | an unpublished rule is not in force, so it cannot defeat anything |
+| `F3_NON_RETROACTIVITY` | a rule is retroactive **and** carries an `effective_from` | the rule claims to govern a period it postdates |
+| `F5_NON_CONTRADICTION` | two rules share an id | identity is what defeat relations refer to; a repeated id collapses two arguments into one |
+| `F7_CONSTANCY` | `effective_from >= effective_to` | an empty validity interval is a rule that is in force at no time |
+
+**Precedence.** The validity check runs **first**, before triggering, before
+precedence, and before iteration. A defective corpus has no Θ to ground, so a
+semantic answer computed on it would be an answer about a corpus that does not
+exist.
+
+**These are not contestable.** `INVALID` is not `CONTESTED`. Nothing in the
+defect depends on which rule wins, so there is no contest to report and no
+extension to admit. This is the whole content of the distinction: `CONTESTED`
+says *your corpus is fine and genuinely open*; `INVALID` says *your corpus is
+malformed*. Reporting the second as the first tells a well-intentioned author
+to keep arguing with a corpus that cannot be argued with.
+
+## 5a. Proposition-level selection after grounding
+
+Grounded consequence fixes **which arguments survive**. It does not by itself
+fix **which single proposition is reported**.
+
+> **5a.1.** If the surviving arguments of the grounded extension assert a single
+> conclusion atom, that atom is the reported `conclusion`.
+>
+> **5a.2.** If the surviving arguments assert **two or more distinct conclusion
+> atoms**, the extension is grounded and determinate but yields **no unique
+> proposition-level conclusion**. `conclusion` is `null`.
+>
+> **5a.3.** If the surviving arguments assert contradictory conclusions (per
+> `CONTRADICTS`) and no represented relation separates them, the result is
+> `CONTESTED` with `uncertainty=CORPUS` — a genuine open contest.
+
+5a.2 is **not** `CONTESTED`. Nothing is contested: no argument defeats another,
+the extension is unique, and the grounding is determinate. Declaring a contest
+would manufacture a conflict out of two compatible findings. The status remains
+`DECIDED` — the semantics did determine the argument set — while `conclusion`
+is `null`, because the semantics did not determine a proposition.
+
+> **5a.4. Declaration order is not a selection rule.** The order in which rules
+> appear in the corpus may be used to *present* a choice to a reader, never to
+> *make* one. Naming the first-declared atom as *the* conclusion is a
+> substantive preference relation wearing a formatting costume, and §4.6
+> forbids it. An implementation that finds itself indexing a list to choose
+> what to believe is performing an undeclared preference.
+
+Where a display convention is wanted, report the full conclusion set alongside
+`conclusion: null`. Showing the reader every surviving atom does not require
+preferring one.
+
+## 6. Status vocabulary
 
 Unchanged and deliberately small. `CONTESTED` and `INVALID` are not failures.
 
@@ -145,9 +266,9 @@ Unchanged and deliberately small. `CONTESTED` and `INVALID` are not failures.
 | `CONTESTED` | arguments for contradictory conclusions survive; the contest is reported, not resolved |
 | `REFUSED` | the case requires a construct the representation cannot express |
 | `NONFINDING` | no rule is triggered at the relevant time; absence of a finding is not absence of a fault |
-| `INVALID` | the corpus violates a procedural invariant |
+| `INVALID` | the corpus is defective: it violates a validity invariant of §5 |
 
-## 6. Consequence for the two axes
+## 7. Consequence for the two axes
 
 `DECIDED` with a represented defeat relation is the only cell that is both
 decisive and justified. A regime that raises decisiveness while justification

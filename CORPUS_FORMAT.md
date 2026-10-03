@@ -145,6 +145,11 @@ implementations; they are evidence for debugging, not a contract.
 - `conclusion` — must match exactly, including both being null.
 - `accepted` — must match as sets.
 - `uncertainty` — must match where the status is `CONTESTED` or `INVALID`.
+  `INVALID` is always `CORPUS` (SEMANTICS.md §2.1). `NONFINDING` on a
+  well-formed corpus is `NONE`. The engine never emits `IMPLEMENTATION`.
+- `conclusion` — the single reported atom, or `null`. A grounded extension whose
+  survivors assert two or more distinct atoms yields `DECIDED` with
+  `conclusion: null` (SEMANTICS.md §5a.2). Never pick one by declaration order.
 - `defeated` — compared as sets, reported as a difference, **not** treated as a
   disagreement. It is a reporting detail, and `SEMANTICS.md` does not fix it.
 - `trace` — never compared.
@@ -153,3 +158,24 @@ A difference in `defeated` with matching `status`, `conclusion`, `accepted`, and
 `uncertainty` is a **reporting difference**, and is reported separately from
 disagreement. If it turns out to track the spec's silence, that is a finding
 about the spec.
+
+
+## Additions in revision v0.2 (all ratified in SEMANTICS.md)
+
+These were under-specified in v0.1 and produced seven disagreements between two
+independent implementations. Read them as normative, not as advice.
+
+1. **§5 Corpus validity.** Five invariants make a corpus `INVALID`: `F1_GENERALITY`
+   (defeat names a nonexistent rule), `F2_PROMULGATION` (unpromulgated rule),
+   `F3_NON_RETROACTIVITY` (retroactive with `effective_from`), `F5_NON_CONTRADICTION`
+   (duplicate rule id), `F7_CONSTANCY` (`effective_from >= effective_to`).
+   Check these **before** triggering and before iteration. `INVALID` is not
+   `CONTESTED`.
+2. **§4.6 Absent values.** An absent `effective_from` is **not** `-inf`. A basis
+   requiring a comparison is **unsatisfied** when an operand is absent. Fail
+   closed: an unverifiable basis is an unsatisfied basis.
+3. **§5a Proposition selection.** Multiple distinct surviving atoms → `DECIDED`
+   with `conclusion: null`. Not `CONTESTED`; nothing is contested.
+4. **§4.8 represented_reason.** `true` only if a declared, enabled,
+   basis-satisfying relation did the work. Never an engine-generated
+   explanation, never an authoring-time assertion of justification.
