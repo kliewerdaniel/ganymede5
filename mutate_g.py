@@ -79,8 +79,8 @@ MUTANTS = [
 
     ("M8", "corpus.py",
      "engine reports IMPLEMENTATION uncertainty",
-     "            \"uncertainty\": uncertainty or (CORPUS if status == CONTESTED else NONE)}",
-     "            \"uncertainty\": \"IMPLEMENTATION\"}"),
+     "            \"uncertainty\": uncertainty or (CORPUS if status == CONTESTED else NONE),",
+     "            \"uncertainty\": \"IMPLEMENTATION\","),
 
     ("M9", "corpus.py",
      "the reversal is dropped from the trace",
@@ -90,8 +90,9 @@ MUTANTS = [
 
     ("M10", "corpus.py",
      "CONTESTED omits the defeats that were applied",
-     "                       defeated=sorted(defeated))",
-     "                       defeated=None)"),
+     "                       # to why the contest remains open.",
+     "                       # to why the contest remains open.\n"
+     "                       defeated = {}"),
 
     ("M11", "corpus.py",
      "tiebreak survivors on numeric rank",
